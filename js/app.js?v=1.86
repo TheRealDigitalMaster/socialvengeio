@@ -1,0 +1,1050 @@
+var app = new Vue({
+	el : '#wrapper',
+	data : {
+		title    : 'Loading...',
+		page     : 'leaderboard:daily',
+		pageDetail : '',
+		loading  : false,
+		param    : false,
+		table    : [],
+		details  : {},
+		clan 	 : {
+			tag 	: '',
+			slug    : '',
+			name    : '',
+			level   : '',
+			members : [],
+			scores  : [],
+			totalMembers : '',
+			owner : '',
+			kills : '',
+			death : '',
+			kdr   : '',
+		},
+		clanTabs : 'Members',
+		wikiTabs : 'Skins',
+		online   : 'N/A',
+		skinList : {},
+		serviceURL : 'https://gateway.venge.io/',
+		prefixCDN  : 'https://assets.venge.io/',
+		itemSearch : '',
+		config : {
+			captcha : '6Leo6QcaAAAAAJ-Hf0qOqmcZF-c9pn3uTKka07SN'
+		},
+		form : {
+			clan_name: '',
+			to_user  : '',
+			username : '',
+			submit   : false,
+			amount   : 1000,
+			quantity : 1,
+			rarity   : 'All',
+			itemType : 'All',
+			prices   : 'All',
+			keyword  : '',
+			message  : ''
+		},
+		monthNames : ["January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"
+		],
+		skinNames : ['Blaze', 'Sky - Sniper'],
+		autoComplete : {
+			index  : 0,
+			active : false,
+			skinNames : []
+		},
+		isMyProfile : false,
+		lastRenderTime : Date.now() - 50 * 1000,
+
+		showAlert    : false,
+		alertMessage : 'Unknown',
+
+		sortedBy : 'name',
+		orderBy : false,
+
+		popup : {
+			display   : false,
+			login	  : false,
+			owner     : 'Unknown',
+			name      : 'None',
+			rarity    : 'None',
+			item_id   : -1,
+			thumbnail : '',
+			type      : 'Scar',
+			price     : 0,
+			quantity  : 1,
+			color     : 'ccc',
+			other_sellers : [],
+
+			last_listing_price : '0 VG',
+			max_price : '0 VG',
+			min_price : '0 VG',
+			quick_sell_price : '0 VG'
+		},
+
+		previousPopup : {},
+
+		maxChar	: 250,
+		accountBalance : 0,
+		isLogged : false,
+		isDarkMode : false,
+		marketStreamer : false,
+		disableMarketStream : false,
+		mobileNavigator:false,
+		weaponsList:
+			[
+				{ name: 'Scar', thumbnail: 'images/weapons/Scar-Thumbnail.png'},
+				{ name: 'M4', thumbnail: 'images/weapons/M4-Thumbnail.png'},
+				{ name: 'AK47', thumbnail: 'images/weapons/AK-47-Thumbnail.png'},
+				{ name: 'Shotgun', thumbnail: 'images/weapons/Shotgun-Thumbnail.png'},
+				{ name: 'Tec-9', thumbnail: 'images/weapons/Tec-9-Thumbnail.png'},
+				{ name: 'Sniper', thumbnail: 'images/weapons/Sniper-Thumbnail.png'},
+				{ name: 'Light Machine Gun (LMG)', thumbnail: 'images/weapons/LMG-Thumbnail.png'},
+				{ name: 'Desert Eagle', thumbnail: 'images/weapons/Desert-Eagle-Thumbnail.png'},
+			],
+		heroesList:
+			[
+				{ name: 'Lilium', thumbnail: 'images/heroes/Lilium.png', description:'Lilium close combat skilled playable character with grenade and melee hammer'},
+				{ name: 'Shin', thumbnail: 'images/heroes/Shin.png', description:'Shin fast mobility, ninja playable character with katana and shurikens'},
+				{ name: 'Echo', thumbnail: 'images/heroes/Echo.png', description:'Echo high mobility playable character with grappling hook and throwing axe'},
+				{ name: 'Kulu', thumbnail: 'images/heroes/Kulu.png', description:'Kulu is a playable character with proximity activated exploding totems and call storm spell.'},
+			]
+	},
+	methods : {
+		init : function(){
+			this._service('online.php', {}, function(data){
+				app.online = data.online;
+			});
+
+			this.renderAds();
+
+			window.onhashchange = function(){
+				app.setHash();
+			};
+
+			app.setHash();
+
+			//set dark mode
+			var darkMode = window.localStorage.getItem('DarkMode');
+
+			if(darkMode){
+				this.isDarkMode = darkMode == 'true' ? true : false;
+			}
+		},
+		selectAutoCompleteIndex : function(index){
+			this.autoComplete.index  = index;
+			this.autoComplete.active = false;
+
+			this.form.keyword = this.autoComplete.skinNames[this.autoComplete.index];
+			this.getMarketListing();
+		},
+		updateSearchList : function(){
+			var list = [];
+
+			for(var index in this.skinNames){
+				var skinName = this.skinNames[index];
+
+				if(
+					skinName.toLowerCase().search(this.form.keyword.toLowerCase()) > -1 ||
+					this.form.keyword.length === 0
+				){
+					list.push(skinName);
+				}
+			}
+
+			this.autoComplete.skinNames = list;
+		},
+		autoCompleteClose : function(){
+			setTimeout(function(self){
+				self.autoComplete.active = false;
+			}, 500, this);
+		},
+		keyDown : function(event){
+			if(event.key == 'ArrowDown'){
+				this.autoComplete.index++;
+			}else if(event.key == 'ArrowUp'){
+				this.autoComplete.index--;
+			}else if(event.key == 'Escape'){
+				this.autoComplete.active = false;
+				this.form.keyword = '';
+				return false;
+			}
+
+			this.updateSearchList();
+			this.autoComplete.active = true;
+
+			if(event.key == 'Enter'){
+				this.form.keyword = this.autoComplete.skinNames[this.autoComplete.index];
+				this.getMarketListing();
+				this.autoComplete.active = false;
+			}
+
+			if(this.autoComplete.index < 0){
+				this.autoComplete.index = this.autoComplete.skinNames.length - 1;
+			}
+
+			if(this.autoComplete.index >= this.autoComplete.skinNames.length){
+				this.autoComplete.index = 0;
+			}
+		},
+		renderAds : function(pageChange){
+			/*
+			aiptag.cmd.display.push(function() { aipDisplayTag.display('venge-io_728x90'); });
+			aiptag.cmd.display.push(function() { aipDisplayTag.display('venge-io_728x90_2'); });
+			*/
+			clearTimeout(this.renderTimeout);
+			this.renderTimeout = setTimeout(function(self){
+				self.renderAds();
+			}, 30 * 1000, this);
+		},
+		setHash : function(){
+			var hash  = window.location.hash;
+			var search = window.location.search;
+			var param = false;
+
+			if(hash == 'google_vignette'){
+
+			}else if(hash){
+				hash  = hash.replace('#', '');
+				search = search.replace('?', '');
+
+				app.page  = (hash);
+				app.pageDetail = (search);
+				app.param = (hash);
+				app.triggerPage();
+			}else{
+				app.triggerPage();
+			}
+		},
+		setPage : function(page){
+			window.location.hash = '#' + (page);
+		},
+		getDay : function(){
+			var curr = new Date();
+			return this.monthNames[curr.getMonth()] + ' ' + curr.getDay() + ' ';
+		},
+		getStartOfWeek : function(date) {
+
+			// Copy date if provided, or use current date if not
+			date = date? new Date(+date) : new Date();
+			date.setHours(0,0,0,0);
+
+			// Set date to previous Sunday
+			date.setDate(date.getDate() - date.getDay());
+
+			return date;
+		},
+		getMonday : function(d) {
+			d = new Date(d);
+			var day = d.getDay(),
+				diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+			return new Date(d.setDate(diff)).getDate();
+		},
+		getSunday : function(date) {
+			date = this.getStartOfWeek(date);
+			date.setDate(date.getDate() + 7);
+			return date.getDate();
+		},
+		getWeekDays : function(){
+			var curr = new Date(); // get current date
+
+			var firstday = this.getMonday(new Date());
+			var lastday = this.getSunday(new Date());
+
+			return this.monthNames[curr.getMonth()] + ' ' + firstday + ' - ' + lastday + ' ';
+		},
+		parseInteger : function(value){
+			return parseInt(value);
+		},
+		onDarkModeChange : function(){
+			window.localStorage.setItem('DarkMode', this.isDarkMode);
+		},
+		getAccountBalance : function(){
+			this.service('?request=get_coin_details', {}, function(data){
+				if(data.success){
+					app.accountBalance = data.balance_integer;
+					app.isLogged = true;
+				}else{
+					app.isLogged = false;
+				}
+			});
+		},
+		showItem : function(item, previous){
+			if(previous){
+				this.previousPopup = JSON.parse(JSON.stringify(previous));
+			}else{
+				this.previousPopup = false;
+			}
+
+			this.popup.display = true;
+			this.popup.name    = item.name;
+			this.popup.rarity  = item.rarity;
+			this.popup.id      = item.id;
+			this.popup.color   = 'ccc';
+
+			if(this.page == 'market:public' || this.page == 'profile'){
+				this.popup.thumbnail     = item.thumbnail;
+				this.popup.owner         = item.owner;
+				this.popup.price         = item.price;
+				this.popup.type          = item.type;
+				this.popup.item_id       = item.item_id;
+				this.popup.other_sellers = item.other_sellers;
+
+				if(item.price_changes){
+					//stupid DOM issues
+					setTimeout(function(){
+						new Graph(
+							{
+								data: item.price_changes,
+								target: document.getElementById('popup-chart'),
+								showLegend : true,
+								showBounds : true,
+								showCircle : true,
+								paddingLeft : 40
+							}
+						);
+					}, 100);
+				}
+			}
+
+			if(this.page == 'market:inventory'){
+				this.popup.item_id   = item.id;
+				this.popup.type      = this.skinList[item.id].type;
+				this.popup.thumbnail = this.skinList[item.id].thumbnail;
+				this.popup.color     = this.skinList[item.id].color;
+				this.popup.quantity  = item.quantity;
+
+				//get price changes
+				this.service('?request=get_price_changes', { id : item.id }, function(data){
+					if(data.success){
+						new Graph(
+							{
+								data: data.price_changes,
+								target: document.getElementById('popup-chart'),
+								showLegend : true,
+								showBounds : true,
+								showCircle : true,
+								paddingLeft : 40
+							}
+						);
+					}
+				});
+			}
+		},
+		buyItem : function(){
+			if(!this.popup.display){
+				return false;
+			}
+
+			//current item
+			this.service('?request=buy_item', { id : this.popup.id }, function(data){
+				if(data.success){
+					swal("Successful!", data.message, "success");
+
+					app.popup.display = false;
+					app.previousPopup = false;
+
+					if(app.autoComplete.skinNames && app.autoComplete.skinNames.length > 0){
+						app.form.keyword = app.autoComplete.skinNames[app.autoComplete.index];
+					}
+
+					app.getMarketListing();
+					app.getAccountBalance();
+				}else{
+
+					app.popup.login = true;
+					//swal("An error occured!", data.message, "error");
+				}
+			});
+		},
+		getItemPrices : function(){
+			if(!this.popup.display){
+				return false;
+			}
+
+			this.service('?request=get_price_details', {
+				item_id : this.popup.item_id,
+			}, function(data){
+				if(data.success){
+					app.popup.last_listing_price = data.last_listing_price;
+					app.popup.max_price = data.max_price;
+					app.popup.min_price = data.min_price;
+					app.popup.quick_sell_price = data.quick_sell_price;
+				}else{
+					app.popup.last_listing_price = '0 VG';
+					app.popup.max_price = '0 VG';
+					app.popup.min_price = '0 VG';
+					app.popup.quick_sell_price = '0 VG';
+				}
+			});
+		},
+		sellItem : function(){
+			if(!this.popup.display){
+				return false;
+			}
+
+			//current item
+			this.service('?request=sell_item', {
+				id : this.popup.item_id,
+				amount : this.form.amount,
+				quantity : this.form.quantity
+			}, function(data){
+				if(data.success){
+					swal("Successful!", data.message, "success");
+
+					app.popup.display = false;
+					app.previousPopup = false;
+
+					app.getInventory();
+					app.getAccountBalance();
+				}else{
+					if(data.message.includes('login')){
+						app.popupLogin();
+					}
+					else{
+						swal("An error occured!", data.message, "error");
+					}
+				}
+			});
+		},
+		resellItem : function(){
+			if(!this.popup.display){
+				return false;
+			}
+
+			swal('"Quick sell" will sell your item with a fixed price quickly. It wont be even listed on public markets, do you still want to sell item quickly?', {
+				buttons: {
+					cancel: true,
+					confirm: true,
+				},
+			}).then(function(data){
+				if(data){
+					//current item
+					app.service('?request=resell_item', {
+						id : app.popup.item_id
+					}, function(data){
+						if(data.success){
+							swal("Successful!", data.message, "success");
+
+							app.popup.display = false;
+							app.previousPopup = false;
+
+							app.getInventory();
+							app.getAccountBalance();
+						}else{
+							if(data.message.includes('login')){
+								app.popupLogin();
+							}
+							else{
+								swal("An error occured!", data.message, "error");
+							}
+						}
+					});
+				}
+			});
+		},
+		popupLogin : function(){
+			app.popup.display = true;	
+			app.popup.login = true;
+		},
+		login : function(){
+			grecaptcha.ready(function() {
+				grecaptcha.execute(app.config.captcha, {action: 'submit'}).then(function(token) {
+
+					if(token){
+						app.service('?request=login_v2', {
+							username : app.form.username,
+							password : app.form.password,
+							token    : token
+						}, function(data){
+							app.loading = false;
+
+							if(data.success){
+								window.location.reload();
+							}else{
+								swal("An error occured!", data.message, "error");
+							}
+						});
+					}else{
+						swal("An error occured!", data.message, "error");
+					}
+				});
+			});
+
+			/*
+			this.service('?request=login', {
+				username : this.form.username,
+				password : this.form.password
+			}, function(data){
+				if(data.success){
+					//swal("Successful!", data.message, "success");
+
+					window.location.reload();
+				}else{
+					swal("An error occured!", data.message, "error");
+				}
+			});
+			*/
+		},
+		triggerPage : function(){
+			var URL  = '';
+			var page = 'leaderboard';
+
+			if(this.page == 'search:user'){
+				URL  = '?request=users';
+				page = 'search:user';
+				this.title = 'Users';
+				this.backSearch() //Back Search will execute at pageload
+			}else if(this.page == 'leaderboard:daily'){
+				URL = '?request=leaderboard&sort=rank';
+				this.title = 'Daily Leaderboard <label>(' + this.getDay() + ')</label>';
+			}else if(this.page == 'leaderboard:weekly'){
+				URL = '?request=leaderboard&sort=weekly';
+				this.title = 'Weekly Leaderboard <label>(' + this.getWeekDays() + ')</label>';
+			}else if(this.page == 'leaderboard:clans'){
+				URL = '?request=leaderboard&sort=clans';
+				this.title = 'Clans Leaderboard';
+			}else if(this.page == 'leaderboard:global'){
+				URL = '?request=leaderboard&sort=score';
+				this.title = 'Global Leaderboard';
+			}else if(this.page == 'leaderboard:followers'){
+				URL = '?request=leaderboard&sort=followers';
+				this.title = 'Popular Players';
+			}else if(this.page == 'leaderboard:headshots'){
+				URL = '?request=leaderboard&sort=headshots';
+				this.title = 'Headshots';
+			}else if(this.page == 'leaderboard:kills'){
+				URL = '?request=leaderboard&sort=kills';
+				this.title = 'Kills';
+			}else if(this.page == 'profile' && app.param == 'profile'){
+				this.myProfile();
+				return false;
+			}else if(this.page == 'page:wiki'){
+				this.title = 'Venge.io Wiki';
+
+				this.service('?request=get_skins_list', {}, function(data){
+					app.table = data.result;
+				});
+
+				return false;
+			}else if(this.page == 'market:public'){
+				this.title = 'Venge.io Market';
+
+				this.table = [];
+
+				this.getSkinList();
+				this.getMarketListing();
+				this.getAccountBalance();
+
+				this.showMarketStreamer();
+
+				return false;
+			}else if(this.page == 'market:inventory'){
+				this.title = 'Inventory';
+				this.table = [];
+
+				this.getInventory();
+				this.getAccountBalance();
+
+				this.showMarketStreamer();
+				return false;
+			}else if(this.page == 'market:sales'){
+				this.title = 'My Sales';
+				this.table = [];
+
+				this.getSales();
+				this.getAccountBalance();
+
+				this.showMarketStreamer();
+
+				return false;
+			}else if(this.page == 'market:my_listings'){
+				this.title = 'My Listings';
+				this.table = [];
+
+				this.getListings();
+				this.getAccountBalance();
+
+				this.showMarketStreamer();
+
+				return false;
+				return false;
+			}else if(this.page == 'market:trade_vg'){
+				this.title = 'Trade VG';
+				this.table = [];
+
+				this.getLastTrades();
+				this.getAccountBalance();
+
+				return false;
+			}else if(this.page == 'action:verify'){
+				this.title = 'Verify Account';
+			}else if(this.pageDetail && this.pageDetail == 'clans' && page != 'profile'){
+				this.getClanDetail();
+			}else{
+				URL  = '?request=get_profile_details&username=' + (app.param);
+				page = 'profile';
+
+				this.title = false;
+			}
+
+			if(page == 'profile'){
+				this.page = 'profile';
+				this.service(URL, {}, function(data){
+					app.details = data;
+
+					app.showAlert = false;
+
+					if(data.success === false){
+						app.showAlert    = true;
+						app.alertMessage = data.message;
+					}
+
+					//aiptag.cmd.display.push(function() { aipDisplayTag.display('venge-io_300x250'); });
+				});
+			}else{
+				this.service(URL, {}, function(data){
+					app.table = data.result;
+				});
+			}
+		},
+		showMarketStreamer : function(){
+			if(app.marketStreamer){
+				return false;
+			}
+
+			setTimeout(function(self){
+				self.getMarketStreamer();
+			}, 100, this);
+		},
+		getSkinList : function(){
+			this.service('?request=get_all_skin_names', {}, function(data){
+				if(data.success && data.result){
+					app.skinNames = data.result;
+				}
+			});
+		},
+		getMarketStreamer : function(){
+			this.service('?request=get_market_streamer', {}, function(data){
+				if(data.success && data.streamer){
+					app.marketStreamer = data.streamer;
+
+					new Twitch.Embed("twitch-embed", {
+						width   : 230,
+						height  : 480,
+						muted   : true,
+						channel : data.streamer,
+						parent  : ["venge.io", "social.venge.io"]
+					});
+				}
+			});
+		},
+		getMarketListing : function(){
+			if(this.form.keyword){
+				this.service('?request=search_skins', {
+					skin_name : this.form.keyword,
+					prices : this.form.prices
+				}, function(data){
+					app.table = data.result;
+				});
+			}else{
+				this.service('?request=get_market_listing', {
+					rarity : this.form.rarity,
+					itemType : this.form.itemType,
+					prices : this.form.prices
+				}, function(data){
+					app.table = data.result;
+				});
+			}
+		},
+		getInventory : function(){
+			this.service('?request=get_skins_list', {}, function(data){
+				for(var index in data.result){
+					var item = data.result[index];
+
+					app.skinList[item.id] = item;
+				}
+
+				//get inventory
+				app.service('?request=get_inventory', {}, function(data){
+					if(data.success){
+						app.table = data.result;
+					}else{
+						if(data.message.includes('login')){
+							app.popupLogin();
+						}
+						else{
+							swal("An error occured!", data.message, "error");
+						}
+					}
+				});
+			});
+		},
+		getSales : function(){
+			//get inventory
+			this.service('?request=get_my_sales', {}, function(data){
+				if(data.success){
+					app.table = data.result;
+				}else{
+					if(data.message.includes('login')){
+						app.popupLogin();
+					}
+					else{
+						swal("An error occured!", data.message, "error");
+					}
+				}
+			});
+		},
+		getLastTrades : function(){
+			this.service('?request=get_trades', {}, function(data){
+				if(data.success){
+					app.table = data.result;
+				}else{
+					if(data.message.includes('login')){
+						app.popupLogin();
+					}
+					else{
+						swal("An error occured!", data.message, "error");
+					}
+				}
+			});
+		},
+		transferVG : function(){
+			if(this.form.message.length > 250){
+				return false;
+			}
+			this.service('?request=trade_vg', {
+				username : this.form.to_user,
+				amount   : this.form.amount,
+				message  : this.form.message
+			}, function(data){
+				if(data.success){
+					app.getLastTrades();
+					app.getAccountBalance();
+
+					swal("Successful!", data.message, "success");
+				}else{
+					if(data.message.includes('login')){
+						app.popupLogin();
+					}
+					else{
+						swal("An error occured!", data.message, "error");
+					}
+				}
+			});
+		},
+		getListings : function(){
+			this.service('?request=get_my_listings', {}, function(data){
+				if(data.success){
+					app.table = data.result;
+				}else{
+					swal("An error occured!", data.message, "error");
+				}
+			});
+		},
+		cancelListing : function(item){
+			swal('Do you want to cancel listing? Please note that listing fee wont be returned to your account.', {
+				buttons: {
+					cancel: true,
+					confirm: true,
+				},
+			}).then(function(data){
+				if(data){
+					app.service('?request=cancel_listing', { id : item.id }, function(data){
+						if(data.success){
+							swal("Successful!", data.message, "success");
+
+							app.getSales();
+						}else{
+							swal("An error occured!", data.message, "error");
+						}
+					});
+				}
+			});
+		},
+		search : function(){
+			window.location.hash = 'search:user';
+
+			grecaptcha.ready(function() {
+				grecaptcha.execute('6Leo6QcaAAAAAJ-Hf0qOqmcZF-c9pn3uTKka07SN', {
+					action: 'submit'
+				}).then(function(token) {
+					app.service('?request=users', {
+						username : app.form.username,
+						token    : token
+					}, function(data){
+						if(data.success === true){
+							app.setStorage('SearchUsername', app.form.username);
+							app.form.username = '';
+							app.table = data.result;
+						}else{
+							alert(data.message);
+						}
+					});
+				});
+			});
+		},
+		backSearch : function(){
+			if(this.page == 'search:user' && !this.form.username){
+				this.form.username = this.getStorage('SearchUsername');
+				this.search();
+			}
+		},
+		getClanDetail : function(){
+			//console.log(app.pageDetail, app.param);
+
+			var URL ='?request=get_clan_details_social&slug=' + app.param;
+
+			this.title = "Clan Details";
+			this.page = "clans";
+
+			window.scrollTo({ top: 0, behavior: 'smooth' });// Slide Top
+
+			this.service(URL, {}, function(data){
+				if(data.success == true){
+					app.clan.name = data.clan_name;
+					app.clan.tag = data.tag;
+					app.clan.slug = data.slug;
+					app.clan.owner = data.owner;
+					app.clan.level = data.level;
+					app.clan.members = data.members;
+					app.clan.scores = data.scores;
+					app.clan.totalMembers = data.members.length;
+					app.clan.kills = data.kills;
+					app.clan.deaths = data.deaths;
+					app.clan.kdr = data.kdr;
+
+					app.showAlert = false;
+				}
+				else{
+					app.showAlert    = true;
+					app.alertMessage = data.message;
+				}
+			});
+			
+		},
+		myProfile : function(){
+			this.service('?request=get_details', {}, function(data){
+				if(data.success){
+					app.showProfile(app.cleanMarkup(data.username), true);
+				}else{
+					app.popupLogin();
+					//window.location.href = 'https://venge.io/?login';
+				}
+			});
+		},
+		follow : function(){
+			this.service('?request=add_friend', { username : app.param }, function(data){
+				if(data.success){
+					swal("Followed!", "User successfully followed!", "success");
+				}else{
+					swal("An error occured!", data.message, "error");
+				}
+			});
+		},
+		report : function(){
+			this.service('?request=report_user', { username : app.param }, function(data){
+				if(data.success){
+					swal("Reported!", "User successfully reported!", "success");
+				}else{
+					swal("An error occured!", data.message, "error");
+				}
+			});
+		},
+		numberFormat : function(number,type){
+			var self = number;
+			if(self != undefined && type == 'time'){
+				var days = Number((parseFloat(self) / 24).toFixed(1));
+				var hourFormat = Number((parseFloat(self)).toFixed(1)).toLocaleString();
+				var minutesFormat = parseFloat(self.split(":")[1] / 60).toFixed(1).split(".")[1];
+				return hourFormat + (minutesFormat != 0 ? '.' + minutesFormat + ' hrs' : ' hrs') + ' ('+ days +' days)';
+			}
+			else{
+				return Number((parseFloat(number)).toFixed(1)).toLocaleString();
+			}
+		},
+		cleanMarkup : function(username){
+			return username.replace(/\[color="(.*?)"\]/g, '')
+				.replace(/\[\/color]/g, '')
+				.replace(/\[rainbow\](.*?)\[\/rainbow] /g, '')
+				.replace(/\\/g, '').replace(/\[(.*?)\]/g, '').trim();
+		},
+		formatMarkup : function(data){
+			if(data && data.replace){
+				return data
+					.replace(/\[color="(.*?)"\]/g, '<span style="color:$1">')
+					.replace(/\[\/color]/g, '</span>')
+					.replace(/\\/g, '');
+			}else{
+				return data;
+			}
+		},
+		submitVerify : function(){
+			this.service('?request=verify', {
+				username : this.form.username
+			}, function(data){
+				app.form.submit = true;
+			});
+		},
+		showProfile : function(username, isMe){
+			app.isMyProfile = isMe;
+			//window.location.hash = '#' + username;
+			window.location.href = '?profile#' + username;
+
+			this.showProfileBanner();
+		},
+		showProfileBanner : function(){
+			var elementSquare = document.getElementById('banner-300x250');
+		},
+		mobileNav: function(){
+			this.mobileNavigator = !this.mobileNavigator;
+		},
+		accordion: function(item){
+			var element = document.getElementById(item.name);
+			element.scrollIntoView({
+				behavior: 'smooth'
+			});
+		},
+		sortBy : function(sortBy){
+			//sort function
+			console.log('Sort by', sortBy, this.orderBy);
+
+			this.sortedBy = sortBy;
+			this.orderBy  = !this.orderBy;
+
+			//sort table variable by name
+
+			this.table.sort(function(a, b){
+				if(sortBy == 'count'){
+					if(app.orderBy === true){
+						return a[sortBy] - b[sortBy];
+					}else{
+						return b[sortBy] - a[sortBy];
+					}
+				}else{
+					if(app.orderBy === true){
+						return a[sortBy].toLowerCase().localeCompare(b[sortBy].toLowerCase());
+					}else{
+						return b[sortBy].toLowerCase().localeCompare(a[sortBy].toLowerCase());
+					}
+				}
+			});
+		},
+		getSortedByIcon : function(sortBy){
+			if(this.sortedBy == sortBy){
+				if(this.orderBy){
+					return '<i class="fas fa-caret-square-down"></i>';
+				}else{
+					return '<i class="fas fa-caret-square-up"></i>';
+				}
+			}else{
+				return '';
+			}
+		},
+		setStorage : function(key, _value, noJSON){
+			var value = JSON.stringify(_value);
+
+			if(noJSON){
+				value = _value;
+			}
+
+			if(this.isLocalStorageSupported()){
+				window.localStorage.setItem(key, value);
+			}else{
+				this.createCookie(key, value);
+			}
+		},
+		getStorage : function(key, noJSON){
+			var data = false;
+
+			if(this.isLocalStorageSupported()){
+				data = window.localStorage.getItem(key);
+			}else{
+				data = this.readCookie(key);
+			}
+
+			if(data && data != 'undefined'){
+				if(noJSON){
+					return data;
+				}else{
+					return JSON.parse(data);
+				}
+			}else{
+				return false;
+			}
+		},
+		createCookie : function(name,value,days){
+			if (days) {
+	            var date = new Date();
+	            date.setTime(date.getTime()+(days*24*60*60*1000));
+	            var expires = "; expires="+date.toGMTString();
+	        }
+	        else var expires = "";
+	        document.cookie = name+"="+value+expires+"; path=/";
+		},
+		readCookie : function(name){
+			var nameEQ = name + "=";
+	        var ca = document.cookie.split(';');
+	        for(var i=0;i < ca.length;i++) {
+	            var c = ca[i];
+	            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	        }
+	        return null;
+		},
+		isLocalStorageSupported : function(){
+			var isSupported = false;
+	        var mod = 'localStorageSupportTest';
+	        
+	        try{
+	            localStorage.setItem(mod, mod);
+	            localStorage.removeItem(mod);
+	            
+	            isSupported = true;
+	        }catch(e){
+	            isSupported = false;
+	        }
+	        
+	        return isSupported;
+		},
+		service : function(_URL, _data, _success){
+			var self = this;
+			this._service('?request=get_csr_token', {}, function(data){
+				self._service(_URL, _data, _success);
+			});
+		},
+		_service : function(URL, data, success){
+			this.loading = true;
+
+			var self   = this;
+			var params = typeof data == 'string' ? data : Object.keys(data).map(
+				function(k){
+					return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]);
+				}
+			).join('&');
+
+			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+			xhr.open('POST', this.serviceURL + URL);
+			xhr.onreadystatechange = function() {
+				self.loading = false;
+				if (xhr.readyState>3 && xhr.status==200) { success(JSON.parse(xhr.responseText)); }
+			};
+			//xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+			xhr.withCredentials = true;
+
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.send(params);
+		}
+	},
+	computed : {
+		filterContent : function(){
+			return this.table.filter((item) => {
+				return item.name.toLowerCase().trim().match(this.itemSearch.toLowerCase().trim())
+			})
+		},
+		
+	}
+});
+
+app.init();
