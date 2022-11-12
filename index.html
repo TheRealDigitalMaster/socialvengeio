@@ -1,0 +1,2390 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+
+  <title>Venge.io Social Club</title>
+
+  <meta
+          name="description"
+          content="Welcome to the Venge Social Club! Share your stats with your friends, look leaderboards, other players and clan stats on this page!"
+  />
+
+  <meta property="og:type" content="website" />
+
+  <meta property="og:title" content="Venge Social Club" />
+  <meta
+          property="og:description"
+          content="Welcome to the Venge Social Club! Share your stats with your friends, look leaderboards, other players and clan stats on this page!"
+  />
+
+  <meta property="og:url" content="https://social.venge.io/" />
+  <meta property="og:site_name" content="social.venge.io" />
+
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+  />
+
+  <link rel="icon" href="images/logo.png" type="image/x-icon" />
+  <meta
+          content="https://social.venge.io/images/thumbnail.jpg"
+          property="og:image"
+  />
+
+  <link rel="stylesheet" type="text/css" href="css/main.css?v=2.00" />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+          rel="stylesheet"
+  />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.6.0/hint.min.css"
+  />
+
+  <script
+          src="https://kit.fontawesome.com/4f818e8f9d.js"
+          crossorigin="anonymous"
+  ></script>
+
+  <script src="//game-cdn.poki.com/scripts/v2/poki-sdk.js"></script>
+
+  <script type="text/javascript" src="js/sweetalert.min.js"></script>
+  <script type="text/javascript" src="js/vue.js"></script>
+
+  <script type="text/javascript" src="js/graph.min.js"></script>
+
+  <script src="https://www.google.com/recaptcha/api.js?render=6Leo6QcaAAAAAJ-Hf0qOqmcZF-c9pn3uTKka07SN"></script>
+
+  <script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+
+<!-- Quantcast Choice. Consent Manager Tag v2.0 (for TCF 2.0) -->
+<script type="text/javascript" async=true>
+  (function() {
+    var host = window.location.hostname;
+    var element = document.createElement('script');
+    var firstScript = document.getElementsByTagName('script')[0];
+    var url = 'https://quantcast.mgr.consensu.org'
+      .concat('/choice/', 'VzKDgYuw-1KTr', '/', host, '/choice.js')
+    var uspTries = 0;
+    var uspTriesLimit = 3;
+    element.async = true;
+    element.type = 'text/javascript';
+    element.src = url;
+  
+    firstScript.parentNode.insertBefore(element, firstScript);
+  
+    function makeStub() {
+      var TCF_LOCATOR_NAME = '__tcfapiLocator';
+      var queue = [];
+      var win = window;
+      var cmpFrame;
+  
+      function addFrame() {
+        var doc = win.document;
+        var otherCMP = !!(win.frames[TCF_LOCATOR_NAME]);
+  
+        if (!otherCMP) {
+          if (doc.body) {
+            var iframe = doc.createElement('iframe');
+  
+            iframe.style.cssText = 'display:none';
+            iframe.name = TCF_LOCATOR_NAME;
+            doc.body.appendChild(iframe);
+          } else {
+            setTimeout(addFrame, 5);
+          }
+        }
+        return !otherCMP;
+      }
+  
+      function tcfAPIHandler() {
+        var gdprApplies;
+        var args = arguments;
+  
+        if (!args.length) {
+          return queue;
+        } else if (args[0] === 'setGdprApplies') {
+          if (
+            args.length > 3 &&
+            args[2] === 2 &&
+            typeof args[3] === 'boolean'
+          ) {
+            gdprApplies = args[3];
+            if (typeof args[2] === 'function') {
+              args[2]('set', true);
+            }
+          }
+        } else if (args[0] === 'ping') {
+          var retr = {
+            gdprApplies: gdprApplies,
+            cmpLoaded: false,
+            cmpStatus: 'stub'
+          };
+  
+          if (typeof args[2] === 'function') {
+            args[2](retr);
+          }
+        } else {
+          queue.push(args);
+        }
+      }
+  
+      function postMessageEventHandler(event) {
+        var msgIsString = typeof event.data === 'string';
+        var json = {};
+  
+        try {
+          if (msgIsString) {
+            json = JSON.parse(event.data);
+          } else {
+            json = event.data;
+          }
+        } catch (ignore) {}
+  
+        var payload = json.__tcfapiCall;
+  
+        if (payload) {
+          window.__tcfapi(
+            payload.command,
+            payload.version,
+            function(retValue, success) {
+              var returnMsg = {
+                __tcfapiReturn: {
+                  returnValue: retValue,
+                  success: success,
+                  callId: payload.callId
+                }
+              };
+              if (msgIsString) {
+                returnMsg = JSON.stringify(returnMsg);
+              }
+              if (event && event.source && event.source.postMessage) {
+                event.source.postMessage(returnMsg, '*');
+              }
+            },
+            payload.parameter
+          );
+        }
+      }
+  
+      while (win) {
+        try {
+          if (win.frames[TCF_LOCATOR_NAME]) {
+            cmpFrame = win;
+            break;
+          }
+        } catch (ignore) {}
+  
+        if (win === window.top) {
+          break;
+        }
+        win = win.parent;
+      }
+      if (!cmpFrame) {
+        addFrame();
+        win.__tcfapi = tcfAPIHandler;
+        win.addEventListener('message', postMessageEventHandler, false);
+      }
+    };
+  
+    makeStub();
+  
+    var uspStubFunction = function() {
+      var arg = arguments;
+      if (typeof window.__uspapi !== uspStubFunction) {
+        setTimeout(function() {
+          if (typeof window.__uspapi !== 'undefined') {
+            window.__uspapi.apply(window.__uspapi, arg);
+          }
+        }, 500);
+      }
+    };
+  
+    var checkIfUspIsReady = function() {
+      uspTries++;
+      if (window.__uspapi === uspStubFunction && uspTries < uspTriesLimit) {
+        console.warn('USP is not accessible');
+      } else {
+        clearInterval(uspInterval);
+      }
+    };
+  
+    if (typeof window.__uspapi === 'undefined') {
+      window.__uspapi = uspStubFunction;
+      var uspInterval = setInterval(checkIfUspIsReady, 6000);
+    }
+  })();
+  </script>
+  <!-- End Quantcast Choice. Consent Manager Tag v2.0 (for TCF 2.0) -->
+
+</head>
+<body>
+<div
+        id="wrapper"
+        :class="{ active: mobileNavigator, 'dark-mode' : isDarkMode }"
+>
+  <div class="loading" v-show="loading">
+    <div class="circle"></div>
+  </div>
+
+  <!--<div class="back-to-game">
+    <a href="https://venge.io/" class="glow-on">Back to ACTION!!</a>
+  </div>-->
+
+  <div class="popup" v-show="popup.display" style="display: none;">
+    <div class="shadow" v-on:click="popup.display = false, popup.login = false"></div>
+
+    <div v-if="!popup.login" class="popup-content">
+      <h1 v-if="page != 'login:venge'">
+        <i  class="fas fa-tags"></i>
+        <b>{{page == 'market:public' ? 'Buy' : 'Sell'}}</b>
+        <span class="popup-close" v-on:click="popup.display = false"
+        ><i class="fas fa-times"></i
+        ></span>
+      </h1>
+
+      <div class="popup-thumbnail" :style="{'background-color' : '#' + popup.color }">
+        <img :src="popup.thumbnail" />
+      </div>
+
+      <div class="popup-pricing">
+        <div v-if="page == 'market:public'" class="saler">
+            <span class="label">Owner : </span>
+            <a target="_blank" :href="'https://social.venge.io/?profile#' + popup.owner">
+              <b v-html="formatMarkup(popup.owner)"></b>
+            </a>
+        </div>
+        <div class="info">
+          <span class="label">Name : </span><b>{{popup.name}}</b>
+        </div>
+        <div class="info">
+          <span class="label">Type : </span><b>{{popup.type}}</b>
+        </div>
+        <div class="info">
+              <span class="label">Rarity : </span>
+              <span class="rarity" :class="popup.rarity">
+                {{popup.rarity}}
+              </span>
+        </div>
+
+        <div class="info" v-if="page == 'market:inventory'">
+          <span class="label">Quantity : </span><b>{{popup.quantity}}</b>
+        </div>
+
+        <div v-if="page == 'market:public' || page == 'profile'">
+          <div class="price">
+            <i class="fas fa-tag"></i> Price :
+            <b>{{numberFormat(popup.price)}} VG</b>
+          </div>
+          <div class="balance">
+            Account Balance : <b>{{numberFormat(accountBalance)}} VG</b>
+          </div>
+
+          <a class="button button-buy" href="javascript:;" v-on:click="buyItem()">
+            <i class="fas fa-shopping-cart">
+            </i> Buy Item</a>
+        </div>
+
+        <div v-if="page == 'market:inventory'">
+          <div class="price">
+            <label>
+              <i class="fas fa-tag"></i> 
+              Price (VG)
+            </label>
+            <input v-model="form.amount" class="form-input" type="number" placeholder="1000" step="1"/>
+          </div>
+
+          <div class="quantity">
+            <label><i class="fas fa-boxes"></i> Quantity</label>
+            <input
+                    v-model="form.quantity"
+                    class="form-input"
+                    type="number"
+                    placeholder="1"
+                    step="1"
+            />
+          </div>
+
+          <div class="balance">
+             <span style="display: block">Account Balance :
+                <b>{{numberFormat(accountBalance)}} VG</b>
+             </span> <br>
+            <b>
+              {{parseInteger(form.amount * 0.05)}} VG will be deducted from your account.
+              <br />5% Listing Fee</b>
+          </div>
+
+          <a
+                  class="button button-buy"
+                  href="javascript:;"
+                  v-on:click="sellItem()"
+          ><i class="fas fa-bullhorn"></i> Sell Item</a
+          >
+
+          <a  class="button button-secondary" href="javascript:;" v-on:click="resellItem()">
+            Quick Sell
+          </a>
+        </div>
+      </div>
+
+      <div class="popup-seperator"></div>
+
+      <div class="popup-alternative" v-if="page == 'market:public'">
+        <h4 class="secondary-title">
+          <i class="fas fa-user"></i> Alternative Sellers
+        </h4>
+        <table class="table" v-if="popup.other_sellers.length > 0">
+          <tr>
+            <th>Price</th>
+            <th>Owner</th>
+            <th></th>
+          </tr>
+          <tr v-for="other_item in popup.other_sellers">
+            <td>{{numberFormat(other_item.price)}}VG</td>
+            <td>
+              <a
+                      target="_blank"
+                      :href="'https://social.venge.io/?profile#' + other_item.owner"
+              ><b v-html="formatMarkup(other_item.owner)"></b
+              ></a>
+            </td>
+            <td>
+              <a
+                      href="javascript:;"
+                      v-on:click="showItem(other_item, popup)"
+              ><i class="fas fa-caret-square-right"></i
+              ></a>
+            </td>
+          </tr>
+        </table>
+        <div
+                class="empty-centerized"
+                v-if="popup.other_sellers.length == 0"
+        >
+          <b v-show="!previousPopup">There is no alternative seller.</b>
+          <span v-show="previousPopup" v-on:click="showItem(previousPopup)"
+          ><i class="fas fa-exclamation-triangle"></i> The item you are
+                viewing has higher price than other alternatives. Click here to
+                find the cheapest one. <br /><br />Cheapest Seller :
+                <b>@{{previousPopup.owner}}</b></span
+          >
+        </div>
+      </div>
+
+      <div class="popup-alternative" v-if="page == 'market:inventory'">
+        <h4 class="secondary-title">
+          <i class="fas fa-user"></i> Current Prices
+        </h4>
+        <table class="table">
+          <tr>
+            <th>Last Listing Price</th>
+            <td>{{popup.last_listing_price}}</td>
+          </tr>
+          <tr>
+            <th>Max Price</th>
+            <td>{{popup.max_price}}</td>
+          </tr>
+          <tr>
+            <th>Min Price</th>
+            <td>{{popup.min_price}}</td>
+          </tr>
+          <tr>
+            <th>Quick Sell Price</th>
+            <td>{{popup.quick_sell_price}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="popup-charts">
+        <h4 class="secondary-title">
+          <i class="fas fa-chart-line"></i> Price Changes
+        </h4>
+        <div class="canvas-container" style="width: 300px; height: 130px">
+          <canvas id="popup-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="!isLogged && popup.login" class="popup-content login-wrapper">
+
+          <h1>
+            <i  class="fas fa-user"></i>
+            <b>Login - Venge.io</b>
+            <span class="popup-close" v-on:click="popup.display = false, popup.login = false">
+              <i class="fas fa-times"></i>
+            </span>
+          </h1>
+          <div class="login-content">
+            <form v-on:submit="login()" action="javascript:;">
+              <div class="form-field">
+                <span class="field">
+                   <i class="fas fa-user"></i> Username
+                </span>
+                <input
+                        v-model="form.username"
+                        class="form-input"
+                        type="text"
+                        placeholder="Username"
+                />
+              </div>
+
+              <div class="form-field">
+                <span class="field">
+                  <i class="fas fa-lock"></i>  Password
+                </span>
+                <input
+                        v-model="form.password"
+                        class="form-input"
+                        type="password"
+                        placeholder="Password"
+                />
+              </div>
+
+              <button class="btn-block" type="submit">Login</button>
+            </form>
+          </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <a
+              href="javascript:;"
+              v-on:click="mobileNav()"
+              :class="{ active: mobileNavigator }"
+              class="mobile-navigation"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </a>
+      <a href="https://venge.io/"><img class="logo" src="images/logo.png" /></a>
+      <ul class="menu" :class="{ active: mobileNavigator }">
+        <a
+                href="?daily#leaderboard:daily"
+                :class="{'active' : page == 'leaderboard:daily' || page == 'leaderboard:weekly' || page == 'leaderboard:global'}"
+        ><i class="fa fa-calendar-o" aria-hidden="true"></i>
+          LEADERBOARD</a
+        >
+
+        <a
+                href="?clans#leaderboard:clans"
+                :class="{'active' : page == 'leaderboard:clans' || page == 'clans'}"
+        ><i class="fa fa-users" aria-hidden="true"></i> CLANS</a
+        >
+
+        <a
+                href="?market#market:public"
+                :class="{'active' : page == 'market:public' || page == 'market:inventory' || page == 'market:sales' || page == 'market:my_listings' || page == 'market:trade_vg'}"
+        ><i class="fa fa-bullseye"></i> MARKET</a
+        >
+
+        <a href="?wiki#page:wiki" :class="{'active' : page == 'page:wiki'}"
+        ><i class="fa fa-book" aria-hidden="true"></i> WIKI</a
+        >
+        <a v-on:click="page = 'profile', myProfile(), mobileNav();"
+        ><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a
+        >
+        <li class="online">{{online}} Online</li>
+        <li class="dark-mode-field">
+          <i class="fas fa-moon"></i>
+          <label class="switch">
+            <input
+                    v-on:change="onDarkModeChange()"
+                    v-model="isDarkMode"
+                    type="checkbox"
+                    value="true"
+            />
+            <span class="slider"></span>
+          </label>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div class="search-form" v-if="page != 'market:sales' && page != 'market:inventory' && page != 'market:public' && page != 'profile' && page != 'clan' && page != 'clans' && page != 'page:wiki' && page != 'market:my_listings' && page != 'market:trade_vg'">
+        <input
+                type="text"
+                v-model="form.username"
+                v-on:change="search()"
+                name="search-username"
+                placeholder="Search by username"
+        />
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </div>
+
+      <div class="swap-box">
+        <div class="filter-form" v-if="page == 'market:public'">
+          <select
+                  class="filter-select"
+                  v-model="form.prices"
+                  v-on:change="getMarketListing()"
+          >
+            <option value="All">Item Prices : All</option>
+            <option>Highest</option>
+            <option>Lowest</option>
+          </select>
+          <select
+                  v-if="form.keyword.length === 0"
+                  class="filter-select"
+                  v-model="form.rarity"
+                  v-on:change="getMarketListing()"
+          >
+            <option value="All">Rarity : All</option>
+            <option>Common</option>
+            <option>Uncommon</option>
+            <option>Rare</option>
+            <option>Legendary</option>
+            <option>Mythical</option>
+          </select>
+          <select
+                  v-if="form.keyword.length === 0"
+                  class="filter-select"
+                  v-model="form.itemType"
+                  v-on:change="getMarketListing()"
+          >
+            <option value="All">Item Type : All</option>
+            <option value="ScarSkin">Scar</option>
+            <option value="Tec9Skin">Tec-9</option>
+            <option value="ShotgunSkin">Shotgun</option>
+            <option value="SniperSkin">Sniper</option>
+            <option value="DesertEagleSkin">Desert-Eagle</option>
+            <option value="M4Skin">M4</option>
+            <option value="AK47Skin">AK47</option>
+            <option value="LMG">LMG</option>
+            <option value="Charm">Charms</option>
+            <option value="Spray">Spray</option>
+            <option value="Dance">Dance</option>
+            <option value="LiliumSkin">Lilium</option>
+            <option value="ShinSkin">Shin</option>
+            <option value="EchoSkin">Echo</option>
+            <option value="KuluSkin">Kulu</option>
+          </select>
+          <div class="search-bar">
+            <input
+                    v-on:blur="autoCompleteClose()"
+                    class="filter-select"
+                    type="search"
+                    v-model="form.keyword"
+                    v-on:keyup="keyDown($event)"
+                    placeholder="Search by name"
+            />
+            <i class="fa fa-search search-icon" aria-hidden="true"></i>
+            <div v-if="autoComplete.active" class="autocomplete">
+              <li
+                      v-on:click="selectAutoCompleteIndex(index)"
+                      :class="{'active' : index == autoComplete.index}"
+                      v-for="(item, index) in autoComplete.skinNames"
+              >
+                {{item}}
+              </li>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-form" v-if="page == 'market:inventory'">
+          <div class="search-bar">
+            <input
+                    class="filter-select"
+                    type="search"
+                    v-model="itemSearch"
+                    placeholder="Search by name"
+            />
+            <i class="fa fa-search search-icon" aria-hidden="true"></i>
+          </div>
+        </div>
+
+        <div class="content-header">
+              <span
+                      v-show="page == 'leaderboard:daily' || page == 'leaderboard:weekly' || page == 'leaderboard:global' || page == 'leaderboard:followers' || page == 'leaderboard:headshots' || page == 'leaderboard:kills'"
+              >
+                <div class="content-header-tab">
+                  <li
+                          v-on:click="setPage('leaderboard:daily')"
+                          :class="{'active' : page == 'leaderboard:daily'}"
+                  >
+                    <i class="fa fa-user" aria-hidden="true"></i> Daily
+                  </li>
+                  <li
+                          v-on:click="setPage('leaderboard:weekly')"
+                          :class="{'active' : page == 'leaderboard:weekly'}"
+                  >
+                    <i class="fa fa-user" aria-hidden="true"></i> Weekly
+                  </li>
+                  <li
+                          v-on:click="setPage('leaderboard:global')"
+                          :class="{'active' : page == 'leaderboard:global'}"
+                  >
+                    <i class="fa fa-user" aria-hidden="true"></i> Global
+                  </li>
+                  <li
+                          v-on:click="setPage('leaderboard:followers')"
+                          :class="{'active' : page == 'leaderboard:followers'}"
+                  >
+                    <i class="fa fa-user" aria-hidden="true"></i> Popular
+                  </li>
+                  <li
+                          v-on:click="setPage('leaderboard:headshots')"
+                          :class="{'active' : page == 'leaderboard:headshots'}"
+                  >
+                    <i class="fa fa-user" aria-hidden="true"></i> Headshots
+                  </li>
+                  <li
+                          v-on:click="setPage('leaderboard:kills')"
+                          :class="{'active' : page == 'leaderboard:kills'}"
+                  >
+                    <i class="fa fa-user" aria-hidden="true"></i> Kills
+                  </li>
+                </div>
+              </span>
+          <span
+                  v-show="page != 'leaderboard:daily' && page != 'leaderboard:weekly' && page != 'leaderboard:global' && page != 'leaderboard:followers' && page != 'leaderboard:headshots' && page != 'leaderboard:kills'"
+          >
+                <h3 v-show="title" v-html="title"></h3>
+              </span>
+        </div>
+      </div>
+
+      <span v-show="showAlert" class="alert">{{alertMessage}}</span>
+      <span
+              v-show="!showAlert && page != 'market:public' && page != 'market:inventory' && page != 'market:sales' && page != 'market:my_listings' && page != 'market:trade_vg' && page != 'profile' && page != 'clan' && page != 'clans'"
+              class="alert-info"
+      >&#9201; Leaderboards update every 10 minutes.</span
+      >
+      <div
+              v-if="page != 'profile' && page != 'clan' && page != 'market:public' && page != 'market:inventory' && page != 'market:sales' && page != 'market:my_listings' && page != 'market:trade_vg'"
+              id="header-banner"
+      >
+        <div id="banner-728x90" class="banner-728x90"></div>
+      </div>
+      <p
+              class="phone-info-text"
+              v-if="page == 'leaderboard:daily' || page == 'leaderboard:weekly' || page == 'leaderboard:global' || page == 'search:user' || page== 'leaderboard:clans' || page == 'page:wiki'"
+      >
+        Swipe table right or left to see more.
+      </p>
+      <div class="leaderboard" v-if="page == 'search:user'">
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th>USERNAME</th>
+            <th>KILLS</th>
+            <th>DEATHS</th>
+            <th>KDR</th>
+            <th>SCORE</th>
+            <th>PROFILE</th>
+          </tr>
+
+          <tr v-for="(item, rank) in table">
+            <td>{{rank + 1}}.</td>
+            <td>
+              <a
+                class="leaderboard-items"
+                :href="'?profile#' + item.raw_username">
+                <img
+                        v-show="item.hero"
+                        class="hero-thumbnail-image"
+                        :src="'https://assets.venge.io/' + item.hero + '-Thumbnail-1.png'"
+                        :alt="item.hero"
+                        :title="item.hero"
+                />
+                <img
+                        v-show="item.verified == 1"
+                        class="verified-small"
+                        src="images/Verified-Icon.png"
+                />
+                <b v-html="formatMarkup(item.username)"></b>
+              </a>
+            </td>
+            <td>{{item.kills}}</td>
+            <td>{{item.deaths}}</td>
+            <td>{{item.kdr}}</td>
+            <td>{{item.experience}}</td>
+            <td>
+              <a class="button" :href="'?profile#' + item.raw_username"
+              ><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a
+              >
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="leaderboard"
+           v-if="page == 'leaderboard:daily' || page == 'leaderboard:weekly' || page == 'leaderboard:global'"
+      >
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th width="15" v-if="page == 'leaderboard:daily'">-</th>
+            <th>USERNAME</th>
+            <th>KILLS</th>
+            <th>DEATHS</th>
+            <th>KDR</th>
+            <th>SCORE</th>
+            <th>PROFILE</th>
+          </tr>
+
+          <tr v-for="(item, rank) in table">
+            <td>{{rank + 1}}.</td>
+            <td v-if="page == 'leaderboard:daily'">
+              <img
+                      class="rank-icon"
+                      v-show="item.current_rank < item.previous_rank"
+                      src="images/Caret-Up.png"
+              />
+              <img
+                      class="rank-icon"
+                      v-show="item.current_rank > item.previous_rank"
+                      src="images/Caret-Down.png"
+              />
+              <img
+                      class="rank-icon"
+                      v-show="item.current_rank == item.previous_rank"
+                      src="images/Caret-None.png"
+              />
+            </td>
+            <td>
+              <a
+                 class="leaderboard-items"
+                 :href="'?profile#' + item.raw_username">
+                <img
+                        v-show="item.hero"
+                        class="hero-thumbnail-image"
+                        :src="'https://assets.venge.io/' + item.hero + '-Thumbnail-1.png'"
+                        :alt="item.hero"
+                        :title="item.hero"
+                />
+                <img
+                        v-show="item.verified == 1"
+                        class="verified-small"
+                        src="images/Verified-Icon.png"
+                />
+                <span v-if="item.emoji == 'DollarSign'">🤑</span>
+                <span v-if="item.emoji == 'Crazy'">🤪</span>
+                <span v-if="item.emoji == 'Dizzy'">😵</span>
+                <span v-if="item.emoji == 'Exploding'">🤯</span>
+                <span v-if="item.emoji == 'Mask'">😷</span>
+                <span v-if="item.emoji == 'Rage'">😡</span>
+                <span v-if="item.emoji == 'Smiling'">😊</span>
+                <span v-if="item.emoji == 'SunGlass'">😎</span>
+                <span v-if="item.emoji == 'Thinking'">🤔</span>
+                <span v-if="item.emoji == 'Triumph'">😤</span>
+                <b v-html="formatMarkup(item.username)"></b>
+              </a>
+            </td>
+            <td>{{item.kills}}</td>
+            <td>{{item.deaths}}</td>
+            <td>{{item.kdr}}</td>
+            <td>{{item.experience}}</td>
+            <td>
+              <a class="button" :href="'?profile#' + item.raw_username"
+              ><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a
+              >
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="leaderboard" v-if="page == 'leaderboard:followers'">
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th>USERNAME</th>
+            <th>FOLLOWERS</th>
+            <th>PROFILE</th>
+          </tr>
+
+          <tr v-for="(item, rank) in table">
+            <td>{{rank + 1}}.</td>
+            <td>
+              <a
+                class="leaderboard-items"
+                :href="'?profile#' + cleanMarkup(item.username)">
+                <img
+                        v-show="item.hero"
+                        class="hero-thumbnail-image"
+                        :src="'https://assets.venge.io/' + item.hero + '-Thumbnail-1.png'"
+                        :alt="item.hero"
+                        :title="item.hero"
+                />
+                <img
+                        v-show="item.verified == 1"
+                        class="verified-small"
+                        src="images/Verified-Icon.png"
+                />
+
+                <span v-if="item.emoji == 'DollarSign'">🤑</span>
+                <span v-if="item.emoji == 'Crazy'">🤪</span>
+                <span v-if="item.emoji == 'Dizzy'">😵</span>
+                <span v-if="item.emoji == 'Exploding'">🤯</span>
+                <span v-if="item.emoji == 'Mask'">😷</span>
+                <span v-if="item.emoji == 'Rage'">😡</span>
+                <span v-if="item.emoji == 'Smiling'">😊</span>
+                <span v-if="item.emoji == 'SunGlass'">😎</span>
+                <span v-if="item.emoji == 'Thinking'">🤔</span>
+                <span v-if="item.emoji == 'Triumph'">😤</span>
+
+                <b v-html="formatMarkup(item.username)"></b>
+              </a>
+            </td>
+            <td><b>{{item.followers}}</b></td>
+            <td>
+              <a
+                      class="button"
+                      :href="'?profile#' + cleanMarkup(item.username)"
+              ><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a
+              >
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="leaderboard" v-if="page == 'leaderboard:headshots'">
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th>USERNAME</th>
+            <th>HEADSHOTS</th>
+            <th>HEADSHOT RATE</th>
+            <th>PROFILE</th>
+          </tr>
+
+          <tr v-for="(item, rank) in table">
+            <td>{{rank + 1}}.</td>
+            <td>
+              <a
+                class="leaderboard-items"
+                :href="'?profile#' + item.raw_username">
+                <img
+                        v-show="item.hero"
+                        class="hero-thumbnail-image"
+                        :src="'https://assets.venge.io/' + item.hero + '-Thumbnail-1.png'"
+                        :alt="item.hero"
+                        :title="item.hero"
+                />
+                <img
+                        v-show="item.verified == 1"
+                        class="verified-small"
+                        src="images/Verified-Icon.png"
+                />
+
+                <span v-if="item.emoji == 'DollarSign'">🤑</span>
+                <span v-if="item.emoji == 'Crazy'">🤪</span>
+                <span v-if="item.emoji == 'Dizzy'">😵</span>
+                <span v-if="item.emoji == 'Exploding'">🤯</span>
+                <span v-if="item.emoji == 'Mask'">😷</span>
+                <span v-if="item.emoji == 'Rage'">😡</span>
+                <span v-if="item.emoji == 'Smiling'">😊</span>
+                <span v-if="item.emoji == 'SunGlass'">😎</span>
+                <span v-if="item.emoji == 'Thinking'">🤔</span>
+                <span v-if="item.emoji == 'Triumph'">😤</span>
+
+                <b v-html="formatMarkup(item.username)"></b>
+              </a>
+            </td>
+            <td><b>{{item.headshots}}</b></td>
+            <td><b>{{item.headshot_rate}}</b></td>
+            <td>
+              <a class="button" :href="'?profile#' + item.raw_username"
+              ><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a
+              >
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="leaderboard" v-if="page == 'leaderboard:kills'">
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th>USERNAME</th>
+            <th>KILLS</th>
+            <th>PROFILE</th>
+          </tr>
+
+          <tr v-for="(item, rank) in table">
+            <td>{{rank + 1}}.</td>
+            <td>
+              <a
+                class="leaderboard-items"
+                :href="'?profile#' + item.raw_username">
+                <img
+                        v-show="item.hero"
+                        class="hero-thumbnail-image"
+                        :src="'https://assets.venge.io/' + item.hero + '-Thumbnail-1.png'"
+                        :alt="item.hero"
+                        :title="item.hero"
+                />
+                <img
+                        v-show="item.verified == 1"
+                        class="verified-small"
+                        src="images/Verified-Icon.png"
+                />
+
+                <span v-if="item.emoji == 'DollarSign'">🤑</span>
+                <span v-if="item.emoji == 'Crazy'">🤪</span>
+                <span v-if="item.emoji == 'Dizzy'">😵</span>
+                <span v-if="item.emoji == 'Exploding'">🤯</span>
+                <span v-if="item.emoji == 'Mask'">😷</span>
+                <span v-if="item.emoji == 'Rage'">😡</span>
+                <span v-if="item.emoji == 'Smiling'">😊</span>
+                <span v-if="item.emoji == 'SunGlass'">😎</span>
+                <span v-if="item.emoji == 'Thinking'">🤔</span>
+                <span v-if="item.emoji == 'Triumph'">😤</span>
+
+                <b v-html="formatMarkup(item.username)"></b>
+              </a>
+            </td>
+            <td><b>{{item.kills}}</b></td>
+            <td>
+              <a class="button" :href="'?profile#' + item.raw_username"
+              ><i class="fa fa-user" aria-hidden="true"></i> PROFILE</a
+              >
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="leaderboard" v-if="page == 'leaderboard:clans'">
+        <table class="table">
+          <tr>
+            <th>#</th>
+            <th>CLAN NAME</th>
+            <th>TAG</th>
+            <th>MEMBERS</th>
+            <th>KDR</th>
+            <th>SCORE</th>
+            <th>LEVEL</th>
+            <th>OWNER</th>
+            <th class="pull-right">VIEW</th>
+          </tr>
+
+          <tr v-for="(item, rank) in table">
+            <td>{{rank + 1}}.</td>
+            <td>
+              <a :href="'?clans#' + cleanMarkup(item.slug).replaceAll(/\s/g,'')">
+                <b>{{item.clan_name}}</b>
+              </a>
+            </td>
+            <td>
+               <a :href="'?clans#' + cleanMarkup(item.slug).replaceAll(/\s/g,'')">
+                <span v-if="item.emoji == 'DollarSign'">🤑</span>
+                <span v-if="item.emoji == 'Crazy'">🤪</span>
+                <span v-if="item.emoji == 'Dizzy'">😵</span>
+                <span v-if="item.emoji == 'Exploding'">🤯</span>
+                <span v-if="item.emoji == 'Mask'">😷</span>
+                <span v-if="item.emoji == 'Rage'">😡</span>
+                <span v-if="item.emoji == 'Smiling'">😊</span>
+                <span v-if="item.emoji == 'SunGlass'">😎</span>
+                <span v-if="item.emoji == 'Thinking'">🤔</span>
+                <span v-if="item.emoji == 'Triumph'">😤</span>
+
+                <b v-html="formatMarkup(item.slug)"></b>
+              </a>
+            </td>
+            <td>{{item.members_count}}</td>
+            <td>{{item.kdr}}</td>
+            <td>{{item.experience}}</td>
+            <td>{{item.level}}</td>
+            <td>
+              <a :href="'?profile#' + item.owner_username">
+                {{item.owner_username}}
+              </a>
+            </td>
+            <td>
+              <a class="button" :href="'?clans#' + cleanMarkup(item.slug).replaceAll(/\s/g,'')">
+                <b>View Clan</b>
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="clans" v-show="page == 'clans'">
+        <div class="sidebar">
+          <li :class="{'active' : clanTabs == 'Members'}" v-on:click="clanTabs = 'Members'">
+            Members <i class="fa fa-users" aria-hidden="true"></i>
+          </li>
+          <li :class="{'active' : clanTabs == 'Matches'}" v-on:click="clanTabs = 'Matches'">
+            Matches <i class="fa fa-headset" aria-hidden="true"></i>
+          </li>
+        </div>
+        <div class="content">
+         <div class="clans-header">
+            <div class="clans-info">
+              <div class="level" 
+                :style="{'background' : 'url(images/icons/Clan-Level-'+clan.level+'.png)'}">
+                {{clan.level}}
+                <span>LVL</span>
+              </div>
+             
+              <h1 class="username">
+                <img
+                        v-show="details.verified == 1"
+                        class="verified"
+                        src="images/Verified-Icon.png"
+                />
+                <span v-if="details.emoji == 'DollarSign'">🤑</span>
+                <span v-if="details.emoji == 'Crazy'">🤪</span>
+                <span v-if="details.emoji == 'Dizzy'">😵</span>
+                <span v-if="details.emoji == 'Exploding'">🤯</span>
+                <span v-if="details.emoji == 'Mask'">😷</span>
+                <span v-if="details.emoji == 'Rage'">😡</span>
+                <span v-if="details.emoji == 'Smiling'">😊</span>
+                <span v-if="details.emoji == 'SunGlass'">😎</span>
+                <span v-if="details.emoji == 'Thinking'">🤔</span>
+                <span v-if="details.emoji == 'Triumph'">😤</span>
+                <span v-html="formatMarkup(clan.tag)"></span>
+              </h1>
+            </div>
+
+            <div class="stat-card-holder">
+              <div class="stat-card stat-social">
+                <span class="value">{{clan.totalMembers}}</span>
+                <span class="label">MEMBERS</span>
+              </div>
+
+              <div class="stat-seperator"></div>
+
+              <div class="stat-card">
+                <span class="value">{{clan.kdr}}</span>
+                <span class="label">KDR %</span>
+              </div>
+
+              <div class="stat-card long-type">
+                <span class="value">{{clan.deaths}}</span>
+                <span class="label">DEATHS</span>
+              </div>
+
+              <div class="stat-card long-type">
+                <span class="value">{{clan.kills}}</span>
+                <span class="label">KILLS</span>
+              </div>
+
+              <div class="stat-card long-type">
+                <span class="value">{{clan.owner}}</span>
+                <span class="label">OWNER</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="clans-content" v-if="clanTabs == 'Members'">
+            <h4>Members</h4>
+
+            <table class="table">
+              <tr>
+                <th>#</th>
+                <th>USERNAME</th>
+                <th>LEVEL</th>
+                <th>KILLS</th>
+                <th>DEATHS</th>
+                <th>KDR</th>
+                <th>LAST LOGIN</th>
+                <th>PROFILE</th>
+              </tr>
+
+              <tr v-for="(item, rank) in clan.members">
+                <td>{{rank + 1}}.</td>
+                <td>
+                  <a
+                    class="leaderboard-items"
+                    :href="'?profile#' + item.username">
+                    <img
+                            v-show="item.hero"
+                            class="hero-thumbnail-image"
+                            :src="'https://assets.venge.io/' + item.hero + '-Thumbnail-1.png'"
+                            :alt="item.hero"
+                            :title="item.hero"
+                    />
+                    <img
+                            v-show="item.verified == 1"
+                            class="verified-small"
+                            src="images/Verified-Icon.png"
+                    />
+                    <b v-html="formatMarkup(item.username)"></b>
+                     <b v-if="clan.owner == item.username"> 
+                      <img class="clan-owner" src="images/icons/God-Icon.png" alt="">
+                    </b>
+                  </a>
+                </td>
+                <td>
+                  {{item.level}}
+                </td>
+                <td>
+                  {{item.kills}}
+                </td>
+                <td>
+                  {{item.deaths}}
+                </td>
+                <td>
+                  {{item.kdr}}
+                </td>
+                <td>
+                  {{item.last_login}}
+                </td>
+                <td>
+                  <a class="button" :href="'?profile#' + item.username">
+                    <i class="fa fa-user" aria-hidden="true"></i> 
+                    PROFILE
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="clans-content" v-if="clanTabs == 'Matches'">
+            <h4>Matches</h4>
+
+            <table class="table">
+              <tr>
+                <th>#</th>
+                <th>USERNAME</th>
+                <th>EXPERIENCE</th>
+                <th>KILLS</th>
+                <th>DEATHS</th>
+                <th>DATE</th>
+                <th>RANK</th>
+                <th>VIEW</th>
+              </tr>
+
+              <tr v-for="(item, rank) in clan.scores">
+                <td>{{rank + 1}}.</td>
+                <td>
+                  <a
+                    class="leaderboard-items"
+                    :href="'?profile#' + item.username">
+                    <img
+                            v-show="item.hero"
+                            class="hero-thumbnail-image"
+                            :src="'https://assets.venge.io/' + item.hero + '-Thumbnail-1.png'"
+                            :alt="item.hero"
+                            :title="item.hero"
+                    />
+                    <img
+                            v-show="item.verified == 1"
+                            class="verified-small"
+                            src="images/Verified-Icon.png"
+                    />
+                    <b v-html="formatMarkup(item.username)"></b>
+                     <b v-if="clan.owner == item.username"> 
+                      <img class="clan-owner" src="images/icons/God-Icon.png" alt="">
+                    </b>
+                  </a>
+                </td>
+                <td>
+                  {{item.experience}}
+                </td>
+                <td>
+                  {{item.kills}}
+                </td>
+                <td>
+                  {{item.deaths}}
+                </td>
+                <td>
+                  {{item.date}}
+                </td>
+                <td>
+                  {{item.rank}}
+                </td>
+                <td>
+                  <a class="button" :href="'?profile#' + item.username">
+                    <i class="fa fa-user" aria-hidden="true"></i> 
+                    PROFILE
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile" v-show="page == 'profile' && !showAlert">
+        <div class="profile-header">
+          <div class="profile-info">
+            <div class="level">{{details.level}}<span>LVL</span></div>
+            <img
+                    v-show="details.hero"
+                    class="hero-thumbnail-image-profile"
+                    :src="'https://assets.venge.io/' + details.hero + '-Thumbnail-1.png'"
+                    :alt="details.hero"
+                    :title="details.hero"
+            />
+
+            <h1 class="username">
+              <img
+                      v-show="details.verified == 1"
+                      class="verified"
+                      src="images/Verified-Icon.png"
+              />
+              <span v-if="details.emoji == 'DollarSign'">🤑</span>
+              <span v-if="details.emoji == 'Crazy'">🤪</span>
+              <span v-if="details.emoji == 'Dizzy'">😵</span>
+              <span v-if="details.emoji == 'Exploding'">🤯</span>
+              <span v-if="details.emoji == 'Mask'">😷</span>
+              <span v-if="details.emoji == 'Rage'">😡</span>
+              <span v-if="details.emoji == 'Smiling'">😊</span>
+              <span v-if="details.emoji == 'SunGlass'">😎</span>
+              <span v-if="details.emoji == 'Thinking'">🤔</span>
+              <span v-if="details.emoji == 'Triumph'">😤</span>
+              <span v-html="formatMarkup(details.username)"></span>
+            </h1>
+          </div>
+
+          <div class="stat-card stat-social">
+            <span class="value">{{details.following}}</span>
+            <span class="label">FOLLOWING</span>
+          </div>
+
+          <div class="stat-card stat-social">
+            <span class="value">{{details.followers}}</span>
+            <span class="label">FOLLOWERS</span>
+          </div>
+
+          <div class="stat-seperator"></div>
+
+          <div class="stat-card">
+            <span class="value">{{details.kdr}}</span>
+            <span class="label">KDR %</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="value">{{details.deaths}}</span>
+            <span class="label">DEATHS</span>
+          </div>
+
+          <div class="stat-card">
+            <span class="value">{{details.kills}}</span>
+            <span class="label">KILLS</span>
+          </div>
+        </div>
+        <div class="profile-content">
+          <ul class="stats-col">
+            <h4>KILLS / DEATHS</h4>
+            <li>
+              <span class="label">KILLS</span>
+              <span class="value">{{details.kills}}</span>
+            </li>
+
+            <li>
+              <span class="label">DEATHS</span>
+              <span class="value">{{details.deaths}}</span>
+            </li>
+
+            <li>
+              <span class="label">KDR %</span>
+              <span class="value">{{details.kdr}}</span>
+            </li>
+
+            <br />
+
+            <h4>SKILLS</h4>
+            <li>
+              <span class="label">HEADSHOT</span>
+              <span class="value">{{details.headshots}}</span>
+            </li>
+
+            <br />
+
+            <h4>BADGES</h4>
+            <li class="badges-area">
+                  <span
+                          v-for="item in details.badges"
+                          class="hint--bottom hint--rounded badge-icon"
+                          :aria-label="item.description"
+                  >
+                    <img
+                            :src="'images/' + item.icon"
+                            alt="profile-badge"
+                            class="profile-badge"
+                    />
+                    <p>{{item.name}}</p>
+                  </span>
+            </li>
+          </ul>
+
+          <ul class="stats-col">
+            <h4>LAST MATCH</h4>
+            <li>
+              <span class="label">LAST MATCH KILLS</span>
+              <span class="value">{{details.last_match_kills}}</span>
+            </li>
+
+            <li>
+              <span class="label">LAST MATCH HEADSHOTS</span>
+              <span class="value">{{details.last_match_headshots}}</span>
+            </li>
+
+            <li>
+              <span class="label">LAST MATCH RANK</span>
+              <span class="value">{{details.last_match_position}}</span>
+            </li>
+
+            <br />
+
+            <h4>OVERALL</h4>
+            <li>
+                  <span class="label"
+                  ><i class="fa fa-clock-o" aria-hidden="true"></i> GAME
+                    TIME</span
+                  >
+              <span class="value"
+              >{{numberFormat(details.total_game_time, 'time')}}</span
+              >
+            </li>
+
+            <li>
+                  <span class="label"
+                  ><i class="fa fa-gamepad" aria-hidden="true"></i> GAMES
+                    PLAYED</span
+                  >
+              <span class="value">{{details.total_games_played}}</span>
+            </li>
+
+            <li>
+                  <span class="label"
+                  ><i class="fa fa-trophy" aria-hidden="true"></i> GAMES
+                    WON</span
+                  >
+              <span class="value">{{details.total_games_won}}</span>
+            </li>
+
+            <li>
+                  <span class="label"
+                  ><i class="fa fa-asterisk" aria-hidden="true"></i>
+                    EXPERIENCE</span
+                  >
+              <span class="value">{{details.experience}}</span>
+            </li>
+          </ul>
+
+          <div class="profile-actions">
+                <span>
+                  <h4>ACTIONS</h4>
+                  <ul class="actions">
+                    <li v-on:click="follow()">
+                      <i class="fa fa-plus" aria-hidden="true"></i> FOLLOW USER
+                    </li>
+                    <li v-on:click="report()">
+                      <i class="fa fa-flag" aria-hidden="true"></i> REPORT
+                    </li>
+                    <li v-if="details.twitch">
+                      <a :href="'https://www.twitch.tv/' + details.twitch" target="_blank">
+                        <i class="fa fa-twitch" aria-hidden="true"></i> FOLLOW on TWITCH
+                      </a>
+                    </li>
+                  </ul>
+                </span>
+            <span>
+                  <br />
+
+                  <h4>STATUS</h4>
+                  <ul class="status">
+                    <li>Last online, {{details.last_activity}}</li>
+                    <li>Profile viewed {{details.profile_views}} times.</li>
+                    <li>Joined {{details.created_at}}.</li>
+                    <li>Exact join date <b>{{details.created_at_full}}</b></li>
+                    <li class="link">
+                      <a
+                              :href="'https://social.venge.io/#' + details.username_raw"
+                      ><i class="fa fa-external-link" aria-hidden="true"></i>
+                        https://social.venge.io/#{{details.username_raw}}</a
+                      >
+                    </li>
+                  </ul>
+                </span>
+            <span>
+                  <br />
+                  <h4>SPONSORED</h4>
+
+                  <div class="banner-area" id="banner-300x250">
+                    <div id="venge-io_300x250"></div>
+                  </div>
+                </span>
+          </div>
+
+          <div class="profile-market" v-if="details.market_listing">
+            <hr />
+            <h4>MARKET LISTINGS</h4>
+
+            <div class="content content-market content-profile">
+              <div
+                      v-on:click="showItem(item)"
+                      v-for="item in details.market_listing"
+                      class="market-item"
+                      :style="{'background-color' : '#' + item.color}"
+              >
+                <img :src="item.thumbnail" />
+                <span class="title"
+                >{{item.name}} <small>{{item.rarity}}</small></span
+                >
+                <span class="type">{{item.type}}</span>
+                <span class="price"> <b>{{item.price_format}}</b> VG </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile" v-if="page == 'action:verify'">
+        <div v-show="form.submit" class="alert-info">
+          Thank you for submission, admins will get back to you soon.
+        </div>
+
+        <div v-show="!form.submit">
+          <p>
+            Please enter your username, your session information will be
+            used to match with your account.
+          </p>
+          <form v-on:submit="submitVerify()" action="javascript:;">
+            <span class="field">Username</span>
+            <input
+                    v-model="form.username"
+                    class="form-input"
+                    type="text"
+                    placeholder="Username"
+            />
+            <button class="btn-block" type="submit">Verify</button>
+          </form>
+        </div>
+      </div>
+
+      <div
+              class="market"
+              v-if="page == 'market:public' || page == 'market:inventory' || page == 'market:sales' || page == 'market:my_listings' || page == 'market:trade_vg'"
+      >
+        <div class="sidebar sidebar-market">
+          <li
+                  :class="{'active' : page == 'market:public'}"
+                  v-on:click="setPage('market:public')"
+          >
+            Public Sales <i class="fa fa-bullseye" aria-hidden="true"></i>
+          </li>
+
+          <hr />
+          <li
+                  :class="{'active' : page == 'market:inventory'}"
+                  v-on:click="setPage('market:inventory')"
+          >
+            Inventory<i class="fa fa-archive" aria-hidden="true"></i>
+          </li>
+
+          <li
+                  :class="{'active' : page == 'market:sales'}"
+                  v-on:click="setPage('market:sales')"
+          >
+            My Sales <i class="fas fa-bullhorn"></i>
+          </li>
+
+          <li
+                  :class="{'active' : page == 'market:trade_vg'}"
+                  v-on:click="setPage('market:trade_vg')"
+          >
+            Transfer VG <i class="fas fa-exchange-alt"></i>
+          </li>
+
+          <span v-if="isLogged" class="account-balance"
+          >Account Balance :
+                <b>{{numberFormat(accountBalance)}} VG</b></span
+          >
+          <span v-if="!isLogged" class="account-balance"
+          >Please login to buy or sell items!</span
+          >
+
+          <hr />
+
+          <div v-if="!disableMarketStream" v-show="marketStreamer">
+            <h4>
+              MARKET STREAMERS
+              <div
+                      v-on:click="disableMarketStream = true"
+                      class="market-close-button"
+              >
+                <i class="fas fa-times"></i>
+              </div>
+            </h4>
+            <h5>@{{marketStreamer}}</h5>
+            <div id="twitch-embed"></div>
+
+            <small
+            >If you put "market" in your description, your stream will be
+              featured in the market.</small
+            >
+          </div>
+        </div>
+
+        <div v-if="page == 'market:public'" class="content content-market">
+          <div
+                  v-on:click="showItem(item)"
+                  v-for="item in table"
+                  class="market-item"
+                  :style="{'background-color' : '#' + item.color}"
+          >
+            <img :src="item.thumbnail" />
+            <span class="title"
+            >{{item.name}} <small>{{item.rarity}}</small></span
+            >
+            <span class="type" v-if="page == 'market:public'"
+            >{{item.type}}</span
+            >
+            <span class="price" v-if="page == 'market:public'">
+                  <b>{{item.price_format}}</b> VG
+                </span>
+          </div>
+        </div>
+
+        <div
+                v-if="page == 'market:inventory' && isLogged"
+                class="content content-market">
+          <div
+                  v-on:click="showItem(item); getItemPrices();"
+                  v-for="item in filterContent"
+                  class="market-item"
+                  :style="{'background-color' : '#' + skinList[item.id].color}"
+          >
+            <img :src="prefixCDN + item.thumbnail" />
+            <span class="title"
+            >{{item.name}} <small>{{item.rarity}}</small></span
+            >
+            <span class="price">
+                  <b>{{item.quantity}}</b>
+                </span>
+          </div>
+        </div>
+
+        <div
+                v-if="page == 'market:sales' && isLogged"
+                class="content content-market"
+        >
+          <table class="table">
+            <tr>
+              <th width="150">THUMBNAIL</th>
+              <th>NAME</th>
+              <th width="80">TYPE</th>
+              <th>PRICE</th>
+              <th>RARITY</th>
+
+              <th>DATE</th>
+              <th></th>
+            </tr>
+
+            <tr v-for="(item, rank) in table">
+              <td><img class="thumbnail" :src="item.thumbnail" /></td>
+              <td><b>{{item.name}}</b></td>
+              <td>{{item.type}}</td>
+              <td>{{item.amount}}</td>
+              <td>
+                    <span class="rarity" :class="item.rarity"
+                    >{{item.rarity}}</span
+                    >
+              </td>
+              <td>{{item.created_at}}</td>
+
+              <td v-if="item.transaction_type == 'sale'">
+                Buyer : <br />
+                <a :href="'#' + item.buyer_username"
+                >@{{item.buyer_username}}</a
+                >
+              </td>
+
+              <td v-if="item.transaction_type == 'listing'">
+                <button v-on:click="cancelListing(item)" class="button">
+                  CANCEL
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div
+                v-if="page == 'market:my_listings' && isLogged"
+                class="content content-market"
+        >
+          <table class="table">
+            <tr>
+              <th width="150">THUMBNAIL</th>
+              <th>NAME</th>
+              <th width="80">TYPE</th>
+              <th>PRICE</th>
+              <th>RARITY</th>
+              <th>CREATED AT</th>
+              <th>ACTIONS</th>
+            </tr>
+
+            <tr v-for="(item, rank) in table">
+              <td><img class="thumbnail" :src="item.thumbnail" /></td>
+              <td><b>{{item.name}}</b></td>
+              <td>{{item.type}}</td>
+              <td>{{item.amount}}</td>
+              <td>
+                    <span class="rarity" :class="item.rarity"
+                    >{{item.rarity}}</span
+                    >
+              </td>
+              <td>{{item.created_at}}</td>
+              <td>
+                <button v-on:click="cancelListing(item)" class="button">
+                  CANCEL
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div
+                v-if="page == 'market:trade_vg' && isLogged"
+                class="content content-market"
+        >
+          <h4>New Transfer</h4>
+
+          <form
+                  v-on:submit="transferVG()"
+                  action="javascript:;"
+                  class="horizontal-menu"
+          >
+            <div class="form-field-col">
+              <div class="form-field">
+                <span class="field">Receiver Username</span>
+                <input
+                        v-model="form.to_user"
+                        class="form-input"
+                        type="text"
+                        placeholder="Username"
+                />
+              </div>
+
+              <div class="form-field">
+                <span class="field">Amount (VG)</span>
+                <input
+                        v-model="form.amount"
+                        class="form-input"
+                        type="number"
+                        step="1"
+                        placeholder="0"
+                />
+              </div>
+            </div>
+            <div class="form-field-col">
+              <div class="form-field">
+                <span class="field">Message</span>
+                <textarea
+                  v-model="form.message"
+                  class="form-input"
+                  type="text"
+                  placeholder="Your Message"
+                  rows="4"
+                  :maxlength="maxChar">    
+                </textarea>
+                <p>
+                  <span>{{ maxChar - form.message.length}} characters left</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="form-field-bottom">
+              <button class="btn-block" type="submit">Transfer VG</button>
+
+              <div class="balance">
+                <b
+                >{{parseInteger(form.amount * 0.05)}} VG will bet deducted
+                  from your account. <br />5% Listing Fee</b
+                >
+              </div>
+            </div>
+            
+          </form>
+
+          <hr />
+
+          <h4>Past Transactions</h4>
+          <table class="table">
+            <tr>
+              <th>USERNAME</th>
+              <th width="80">TYPE</th>
+              <th width="80">AMOUNT</th>
+              <th width="250">MESSAGE</th>
+              <th width="120">DATE</th>
+            </tr>
+
+            <tr v-for="(item, rank) in table">
+              <td><b>{{item.username}}</b></td>
+              <td>VG Transfer</td>
+              <td>{{item.amount}}</td>
+              <td>{{item.message}}</td>
+              <td>{{item.created_at}}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div
+                v-if="!isLogged && (page == 'market:sales' || page == 'market:inventory' || page == 'market:my_listings' || page == 'market:trade_vg')"
+                class="content content-market market-login-content"
+        >
+
+          <form v-on:submit="login()" action="javascript:;">
+             <h3>Please login first - Venge.io</h3>
+              <div class="form-field">
+                <span class="field">
+                   <i class="fas fa-user"></i> Username
+                </span>
+                <input
+                        v-model="form.username"
+                        class="form-input"
+                        type="text"
+                        placeholder="Username"
+                />
+              </div>
+
+              <div class="form-field">
+                <span class="field">
+                  <i class="fas fa-lock"></i>  Password
+                </span>
+                <input
+                        v-model="form.password"
+                        class="form-input"
+                        type="password"
+                        placeholder="Password"
+                />
+              </div>
+
+              <button class="btn-block" type="submit">Login</button>
+            </form>
+        </div>
+      </div>
+
+      <div class="wiki" v-if="page == 'page:wiki'">
+        <div class="sidebar">
+          <li
+                  :class="{'active' : wikiTabs == 'Skins'}"
+                  v-on:click="wikiTabs = 'Skins'"
+          >
+            Shop <i class="fa fa-cube" aria-hidden="true"></i>
+          </li>
+          <li
+                  class="weapon-list"
+                  :class="{'active' : wikiTabs == 'Weapons'}"
+                  v-on:click="wikiTabs = 'Weapons'"
+          >
+            Weapons <i class="fa fa-gavel" aria-hidden="true"></i>
+            <ul
+                    :class="{'active' : wikiTabs == 'Weapons'}"
+            >
+              <li
+                      v-on:click="accordion(item)"
+                      v-for="(item, key) in weaponsList"
+              >
+                {{ item.name }}
+                <img
+                        v-if="item.thumbnail"
+                        class="weapon-image"
+                        :src="item.thumbnail"
+                        :alt="item.description"
+                >
+              </li>
+            </ul>
+          </li>
+          <li
+                  class="hero-list"
+                  :class="{'active' : wikiTabs == 'Heroes'}"
+                  v-on:click="wikiTabs = 'Heroes'"
+          >
+            Heroes
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <ul
+                    :class="{'active' : wikiTabs == 'Heroes'}"
+            >
+              <li
+                      v-on:click="accordion(item)"
+                      v-for="(item, key) in heroesList"
+              >
+                {{ item.name }}
+                <img
+                        class="hero-image"
+                        v-if="item.thumbnail"
+                        :src="item.thumbnail"
+                        :alt="item.description"
+                >
+              </li>
+            </ul>
+          </li>
+          <li
+                  :class="{'active' : wikiTabs == 'Badges'}"
+                  v-on:click="wikiTabs = 'Badges'"
+          >
+            Badges <i class="fa fa-shield-alt" aria-hidden="true"></i>
+          </li>
+        </div>
+        <div class="content content-table" v-if="wikiTabs == 'Skins'">
+          <p class="alert-info">You can sort skins by count and type now! Click on table header to test it out!</p>
+          <table class="table">
+            <tr>
+              <th>#</th>
+              <th width="150">THUMBNAIL</th>
+              <th v-on:click="sortBy('name')"><span v-html="getSortedByIcon('name')"></span> NAME</th>
+              <th v-on:click="sortBy('type')" width="80"><span v-html="getSortedByIcon('type')"></span> TYPE</th>
+              <th v-on:click="sortBy('rarity')"><span v-html="getSortedByIcon('rarity')"></span> RARITY</th>
+              <th width="80" v-on:click="sortBy('count')"><span v-html="getSortedByIcon('count')"></span> COUNT</th>
+              <th v-on:click="sortBy('owner')"><span v-html="getSortedByIcon('owner')"></span> OWNER</th>
+            </tr>
+
+            <tr v-for="(item, rank) in table">
+              <td>{{rank + 1}}.</td>
+              <td><img class="thumbnail" :src="item.thumbnail" /></td>
+              <td><b>{{item.name}}</b></td>
+              <td>{{item.type}}</td>
+              <td>
+                    <span class="rarity" :class="item.rarity"
+                    >{{item.rarity}}</span
+                    >
+              </td>
+              <td>{{item.count}}</td>
+              <td><a :href="'#' + item.owner">@{{item.owner}}</a></td>
+            </tr>
+          </table>
+        </div>
+        <div class="content styled" v-if="wikiTabs == 'Heroes'">
+          <h1>Heroes</h1>
+          <p>
+            There are currently 3 different playable characters in Venge.
+            Each of them have different abilities and supports different
+            play styles. Each character have a main ability which can
+            inflict spells (cards), and a melee ability that grants mobility
+            and close combat advantages. Melee abilities are not imbuable
+            with cards. Some characters work better in particular maps since
+            they support certain play styles. More heroes will be added over
+            time.
+          </p>
+          <h2 id="Lilium">Lilium</h2>
+          <p class="hero-exp">
+            Lilium was the first ever playable character added to Venge. She
+            is an invariable asset of game modes with area defending.
+            Supports general play style both close and far combat.
+            <br /><br />With her main ability, Grenade, she is able to hold
+            difficult areas. At centre, it hits 125 AOE (area-of-effect)
+            damage and exponentially decreases based on distance from center
+            of the explosion. Grenade's each impact to any surface reduces
+            its speed, based of the angle. She is able to both block
+            enterances and exits of the areas she fight. Her grenade
+            explodes when damaged by a third party source. <br /><br />With
+            her melee ability, Hammer, she is able to strike a quick melee
+            hit with short period of cooldown and decent damage. Exceptional
+            against close combat heroes like Shin.
+            <img
+                    class="hero-img"
+                    alt="Lilium close combat skilled playable character with grenade and melee hammer"
+                    src="images/heroes/Lilium.png"
+            />
+          </p>
+
+          <h3><strong>Main ability: Grenade</strong></h3>
+          <h4>
+            Throws a grenade which explodes after a short period of time.
+            Deals area-of-effect damage.
+          </h4>
+
+          <ul>
+            <li>
+              <strong>Damage </strong>: 25-125 (Highest in centre, lowest in
+              ends)
+            </li>
+            <li>
+              <strong>Damage With Spells </strong>: 30-143 (Highest in
+              centre, lowest in ends)
+            </li>
+            <li><strong>Cooldown </strong>: 10 Seconds</li>
+            <li><strong>Explosion Delay </strong>: 2 Seconds</li>
+            <li><strong>Imbuable With</strong>: Frost Bomb</li>
+            <li><strong>&nbsp;</strong>&nbsp; Midnight Curse</li>
+            <li><strong>&nbsp;</strong>&nbsp; Sparking Sprites</li>
+            <li><strong>&nbsp;</strong>&nbsp; Muscle Shock</li>
+            <img
+                    class="skill-image"
+                    alt="Lilium main ability skill"
+                    src="images/heroes/Lilium-Throw.png"
+            />
+          </ul>
+
+          <h3><strong>Melee ability: Hammer</strong></h3>
+          <h4>
+            Instantly hits with his hammer towards crosshair direction.
+          </h4>
+
+          <ul>
+            <li><strong>Damage </strong>: 75-95</li>
+            <li><strong>Cooldown </strong>: 1 Seconds</li>
+            <li><strong>Hit Delay </strong>: 0.4 Seconds</li>
+            <img
+                    class="skill-image"
+                    alt="Lilium secondary ability melee skill"
+                    src="images/heroes/Lilium-Melee.png"
+            />
+          </ul>
+
+          <p class="seperator"></p>
+
+          <h2 id="Shin">Shin</h2>
+          <p class="hero-exp">
+            Shin was the first agile character added to Venge. His fast
+            style ables him to survive impossible situations normally might
+            be fatal for other characters. Highly supports close combat play
+            style. <br /><br />With his main ability Shuriken, he quickly
+            throws three ninja stars towards the direction he faces.
+            Shuriken is both to combo with his other attacks and inflict
+            imbued spells to his enemy. First of the stars travels directly
+            on crosshair direction, second and third travels diagonally
+            transverse directions; thus makes it effective in a wide area
+            towards him, from close to medium range. <br /><br />With his
+            melee ability Dash, he can travel short distances in a quick
+            leap forwards. Grants him a unique mobility against any threat.
+            Dash also effective as a finishing move. When Dash is active, he
+            deals low amount of damage to any enemy he intersects with.
+            <img
+                    class="hero-img"
+                    alt="Shin fast mobility, ninja playable character with katana and shurikens"
+                    src="images/heroes/Shin.png"
+            />
+          </p>
+
+          <h3><strong>Main ability: Shuriken</strong></h3>
+          <h4>Throws 3 ninja stars towards the crosshair.</h4>
+
+          <ul>
+            <li><strong>Damage </strong>: 15-20</li>
+            <li><strong>Damage With Spells </strong>: 20-35</li>
+            <li><strong>Shuriken count </strong>: 3</li>
+            <li><strong>Cooldown </strong>: 3 Seconds</li>
+            <li><strong>Imbuable With</strong>: Venom</li>
+            <li><strong>&nbsp;</strong>&nbsp; Midnight Curse</li>
+            <li><strong>&nbsp;</strong>&nbsp; Muscle Shock</li>
+            <img
+                    class="skill-image"
+                    alt="Shin main ability skill"
+                    src="images/heroes/Shin-Throw.png"
+            />
+          </ul>
+
+          <h3><strong>Melee ability: Dash</strong></h3>
+          <h4>
+            Dashes towards the direction Shin faces. Damages to intersected
+            enemies
+          </h4>
+
+          <ul>
+            <li><strong>Damage </strong>: 20-50</li>
+            <li><strong>Cooldown </strong>: 10 Seconds</li>
+            <li><strong>Dash Delay </strong>: 0.1 Seconds</li>
+            <img
+                    class="skill-image"
+                    alt="Shin secondary ability melee skill"
+                    src="images/heroes/Shin-Melee.png"
+            />
+          </ul>
+
+          <p class="seperator"></p>
+
+          <h2 id="Echo">Echo</h2>
+          <p class="hero-exp">
+            Echo is the third character added to Venge. He has a high
+            mobility secondary ability which ables him to displace to
+            impossible places. Supports a wide range of play styles both
+            close and far combat. <br /><br />
+            With his main ability, throwing axe, he can deal damage to a
+            single target and inflict the imbued spell. Axe travels directly
+            to crosshair direction and has a low cooldown period. While he
+            moves to impossible to reach locations with his secondary, he
+            can wait off the cooldown to go up then continue to fight with
+            throwing axe.
+            <br /><br />With his melee ability, Grappling Hook, he is able
+            to quickly displace to the places other characters can't get too
+            easily. The hook can cling on certain surfaces and grant him a
+            unique mobility advantage. If he intersects with any enemy
+            during the grappling sequance, he hits low to medium damage to
+            them. He can use the grappling hook just for the gain speed,
+            displace on the current level of the map or to get high vantage
+            points. Exceptional against Lilium's deadly bombs.
+            <img
+                    class="hero-img"
+                    alt="Echo high mobility playable character with grappling hook and throwing axe"
+                    src="images/heroes/Echo.png"
+            />
+          </p>
+
+          <h3><strong>Main ability: Throwing Axe</strong></h3>
+          <h4>Throws an axe towards the crosshair.</h4>
+
+          <ul>
+            <li><strong>Damage </strong>: 15-20</li>
+            <li><strong>Damage With Spells </strong>: 20-35</li>
+            <li><strong>Cooldown </strong>: 3 Seconds</li>
+            <li><strong>Throw Delay </strong>: 0.2 Seconds</li>
+            <li><strong>Imbuable With</strong>: Venom</li>
+            <li><strong>&nbsp;</strong>&nbsp; Midnight Curse</li>
+            <li><strong>&nbsp;</strong>&nbsp; Muscle Shock</li>
+            <img
+                    class="skill-image"
+                    alt="Echo main ability skill throwing axe"
+                    src="images/heroes/Echo-Throw.png"
+            />
+          </ul>
+
+          <h3><strong>Melee ability: Grappling Hook</strong></h3>
+          <h4>
+            Fires a grappling hook towards the crosshair. If it connect to a
+            climbable location jerks towards it.
+          </h4>
+
+          <ul>
+            <li><strong>Damage </strong>: 15-20</li>
+            <li><strong>Cooldown </strong>: 5 Seconds</li>
+            <img
+                    class="skill-image"
+                    alt="Shin secondary ability melee skill grappling hook"
+                    src="images/heroes/Echo-Melee.png"
+            />
+          </ul>
+
+          <h2 id="Kulu">Kulu</h2>
+          <p class="hero-exp">
+            Kulu was the first character with magical abilities added to Venge. With his abilities,
+            Kulu can hold and defend areas of interest. Supports defensive combat,
+            fighting with multiple enemies, and strategical playstyles due to his cunning abilities.
+            <br /><br />
+            With his main ability, Call Totem, he is able to set ambushes on his enemies.
+            Totems deals area of effect damage and are imbue-able with cards. After 2 seconds a totem is summoned,
+            they arm up and explode when an enemy comes near them. His totems also explode when damaged by a third-party source.
+            <br /><br />
+            With his melee ability, Stormbringer,
+            Kulu is able to hit enemies in front of him.
+            Call Storm will hit multiple enemies within its radius.
+            <img
+                    class="hero-img"
+                    alt="Kulu is a playable character with proximity activated exploding totems and call storm spell."
+                    src="images/heroes/Kulu.png"
+            />
+          </p>
+
+          <h3><strong>Main ability: Call Totem</strong></h3>
+          <h4>Summons a totem that explodes when enemies near it.</h4>
+
+          <ul>
+            <li><strong>Damage </strong>: 10-20</li>
+            <li><strong>Damage With Spells </strong>: 20-30</li>
+            <li><strong>Cooldown </strong>: 10 Seconds</li>
+            <li><strong>Activate Duration </strong>: 2 Seconds</li>
+            <li><strong>Imbuable With</strong>: Venom</li>
+            <li><strong>&nbsp;</strong>&nbsp; Midnight Curse</li>
+            <li><strong>&nbsp;</strong>&nbsp; Muscle Shock</li>
+            <img
+                    class="skill-image"
+                    alt="Summons a totem that explodes when enemies near it."
+                    src="images/heroes/Kulu-Throw.png"
+            />
+          </ul>
+
+          <h3><strong>Melee ability: Stormbringer</strong></h3>
+          <h4>
+            Casts a spell that strikes enemies in the direction he faces.
+          </h4>
+
+          <ul>
+            <li><strong>Damage </strong>: 40-60</li>
+            <li><strong>Cooldown </strong>: 10 Seconds</li>
+            <li><strong>Casting Time </strong>: 1 Seconds</li>
+            <img
+                    class="skill-image"
+                    alt="Casts a spell that strikes enemies in the direction he faces."
+                    src="images/heroes/Kulu-Melee.png"
+            />
+          </ul>
+        </div>
+        <div class="content styled" v-if="wikiTabs == 'Weapons'">
+          <h1>Weapons</h1>
+          <p>
+            Weapons in Venge are in the weapon loadout system. It has 4 slots and each slot is customizable with different weapons. Rifle, Sniper, Shotgun and Handgun are main slots of the loadout system. Each slot can be customizable with various weapons in respective weapon type.
+          </p>
+          <h2 tabindex="-1" id="Scar">Scar</h2>
+          <p>
+            Scar is most famous weapon in Venge. It's an assault rifle type
+            weapon. Supports general play style as it balanced in most of
+            the weapon aspects.
+          </p>
+          <h3 class="stats-h">Stats</h3>
+          <ul id="scar-stats">
+            <li><strong>Shoot Time </strong>: 0.06</li>
+            <li><strong>Recoil Rate </strong>: 0.9</li>
+            <li><strong>Spread Rate </strong>: 300</li>
+            <li><strong>Focus Spread Rate </strong>: 200</li>
+            <li><strong>Damage </strong>: 13</li>
+            <li><strong>Distance Multiplier </strong>: 1</li>
+            <li><strong>Ammo Capacity </strong>: 25</li>
+            <li><strong>Reloading Time </strong>: 2.2</li>
+            <li><strong>Vision Vibrate </strong>: 12</li>
+            <li><strong>Focus FOV </strong>: 45</li>
+            <img
+                    class="weapon-image"
+                    src="images/weapons/Scar-Thumbnail.png"
+            />
+          </ul>
+          <h2 tabindex="-1" id="M4">M4</h2>
+          <p>
+            M4 is an assault rifle. It has high fire rate and less spread
+            than Scar but it's recoil is higher. Effective with burst fire
+            shooting and mid to far distance.
+          </p>
+          <h3 class="stats-h">Stats</h3>
+          <ul id="m4-stats">
+            <li><strong>Shoot Time </strong>: 0.04</li>
+            <li><strong>Recoil Rate </strong>: 1.75</li>
+            <li><strong>Spread Rate </strong>: 1500</li>
+            <li><strong>Focus Spread Rate </strong>: 500</li>
+            <li><strong>Damage </strong>: 13</li>
+            <li><strong>Distance Multiplier </strong>: 1</li>
+            <li><strong>Ammo Capacity </strong>: 25</li>
+            <li><strong>Reloading Time </strong>: 2.2</li>
+            <li><strong>Vision Vibrate </strong>: 12</li>
+            <li><strong>Focus FOV </strong>: 45</li>
+            <img
+                    class="weapon-image"
+                    src="images/weapons/M4-Thumbnail.png"
+            />
+          </ul>
+          <h2 tabindex="-1" id="AK47">AK47</h2>
+          <p>
+            AK47 is a rifle type weapon. Its damage is reliable for it is pretty useful with dealing high amounts of damage in single shot. But it is harder to hit to the enemies due to its high spread rate. Effective in mid to far fire distance.
+          </p>
+          <h3 class="stats-h">Stats</h3>
+          <ul id="ak-stats">
+            <li><strong>Shoot Time </strong>: 0.09</li>
+            <li><strong>Recoil Rate </strong>: 1.4</li>
+            <li><strong>Spread Rate </strong>: 2000</li>
+            <li><strong>Focus Spread Rate </strong>: 650</li>
+            <li><strong>Damage </strong>: 18</li>
+            <li><strong>Distance Multiplier </strong>: 1</li>
+            <li><strong>Ammo Capacity </strong>: 30</li>
+            <li><strong>Reloading Time </strong>: 2.2</li>
+            <li><strong>Vision Vibrate </strong>: 12</li>
+            <li><strong>Focus FOV </strong>: 45</li>
+            <img
+                    class="weapon-image"
+                    src="images/weapons/AK-47-Thumbnail.png"
+            />
+          </ul>
+          <h2 tabindex="-1" id="Shotgun">Shotgun</h2>
+          <p>
+            Shotgun is currently the only scattergun in Venge. It shoots 8
+            projectiles in each shot. Effective in close combat as its slugs
+            lose their damage as they travel more distance proportionally.
+            Half of the projectiles travel in a fixed form and the rest
+            discharges randomly. Projectiles also exponentially spread from
+            each other based on the distance they travel.
+          </p>
+          <h3 class="stats-h">Stats</h3>
+          <ul id="shotgun-stats">
+            <li><strong>Shoot Time </strong>: 0.85</li>
+            <li><strong>Recoil Rate </strong>: 2</li>
+            <li><strong>Spread Rate </strong>: 120</li>
+            <li><strong>Focus Spread Rate </strong>: 50</li>
+            <li><strong>Damage </strong>: 9</li>
+            <li><strong>Distance Multiplier </strong>: 0.85</li>
+            <li><strong>Ammo Capacity </strong>: 3</li>
+            <li><strong>Reloading Time </strong>: 2.2</li>
+            <li><strong>Vision Vibrate </strong>: 40</li>
+            <li><strong>Focus FOV </strong>: 30</li>
+            <img
+                    class="weapon-image"
+                    src="images/weapons/Shotgun-Thumbnail.png"
+            />
+          </ul>
+          <h2 tabindex="-1" id="Tec-9">Tec-9</h2>
+          <p>
+            Tec-9 is currently the fastest fire rated weapon in Venge. It's
+            a sub-machine gun (SMG) type weapon. Effective in close to mid
+            range as it has almost irrepressible recoil and spread rate in
+            long ranges.
+          </p>
+          <h3 class="stats-h">Stats</h3>
+          <ul id="tec9-stats">
+            <li><strong>Shoot Time </strong>: 0.032</li>
+            <li><strong>Recoil Rate </strong>: 1.1</li>
+            <li><strong>Spread Rate </strong>: 650</li>
+            <li><strong>Focus Spread Rate </strong>: 450</li>
+            <li><strong>Damage </strong>: 12</li>
+            <li><strong>Distance Multiplier </strong>: 0.9</li>
+            <li><strong>Ammo Capacity </strong>: 25</li>
+            <li><strong>Reloading Time </strong>: 2.2</li>
+            <li><strong>Vision Vibrate </strong>: 15</li>
+            <li><strong>Focus FOV </strong>: 45</li>
+            <img
+                    class="weapon-image"
+                    src="images/weapons/Tec-9-Thumbnail.png"
+            />
+          </ul>
+          <h2 tabindex="-1" id="Sniper">Sniper</h2>
+          <p>
+            Sniper is currenly the only sharp shooter weapon in Venge. It's
+            a semi automatic rifle. Effective in medium to far range. Its
+            ammos fired from Sniper lose less damage than other weapons as
+            they travel distance. Headshot with sniper inflicts fatal
+            damage.
+          </p>
+          <h3 class="stats-h">Stats</h3>
+          <ul id="sniper-stats">
+            <li><strong>Shoot Time </strong>: 1.1</li>
+            <li><strong>Recoil Rate </strong>: 1.5</li>
+            <li><strong>Spread Rate </strong>: 120</li>
+            <li><strong>Focus Spread Rate </strong>: 7</li>
+            <li><strong>Damage </strong>: 95</li>
+            <li><strong>Distance Multiplier </strong>: 1</li>
+            <li><strong>Ammo Capacity </strong>: 5</li>
+            <li><strong>Reloading Time </strong>: 2.2</li>
+            <li><strong>Vision Vibrate </strong>: 5</li>
+            <li><strong>Focus FOV </strong>: 30</li>
+            <img
+                    class="weapon-image"
+                    src="images/weapons/Sniper-Thumbnail.png"
+            />
+          </ul>
+
+          <h2 tabindex="-1" id="Light Machine Gun (LMG)">Light Machine Gun (LMG)</h2>
+          <p>
+            LMG is a light-weight machine gun. It has got more ammo capacity
+            than any other weapon in Venge. It's spread and recoil (per
+            second) rates also the highest among other weapons. Currently
+            the only available on Gun Game mode.
+          </p>
+          <h3 class="stats-h">Stats</h3>
+          <ul id="lmg-stats">
+            <li><strong>Shoot Time </strong>: 0.07</li>
+            <li><strong>Recoil Rate </strong>: 1</li>
+            <li><strong>Spread Rate </strong>: 1200</li>
+            <li><strong>Focus Spread Rate </strong>: 600</li>
+            <li><strong>Damage </strong>: 20</li>
+            <li><strong>Distance Multiplier </strong>: 1</li>
+            <li><strong>Ammo Capacity </strong>: 50</li>
+            <li><strong>Reloading Time </strong>: 3.5</li>
+            <li><strong>Vision Vibrate </strong>: 15</li>
+            <li><strong>Focus FOV </strong>: 45</li>
+            <img
+                    class="weapon-image"
+                    src="images/weapons/LMG-Thumbnail.png"
+            />
+          </ul>
+          <h2 tabindex="-1" id="Desert Eagle">Desert Eagle</h2>
+          <p>
+            Desert eagle is currently the only pistol in Venge. It has high damage and and almost no shooting time restrictions but fires with a high recoil and spread rate. Effective against close to mid range Targets.
+          </p>
+          <h3 class="stats-h">Stats</h3>
+          <ul id="desert-eagle-stats">
+            <li><strong>Shoot Time </strong>: 0.16</li>
+            <li><strong>Recoil Rate </strong>: 3</li>
+            <li><strong>Spread Rate </strong>: 4000</li>
+            <li><strong>Focus Spread Rate </strong>: 600</li>
+            <li><strong>Damage </strong>: 18</li>
+            <li><strong>Distance Multiplier </strong>: 0.8</li>
+            <li><strong>Ammo Capacity </strong>: 12</li>
+            <li><strong>Reloading Time </strong>: 2.2</li>
+            <li><strong>Vision Vibrate </strong>: 22</li>
+            <li><strong>Focus FOV </strong>: 45</li>
+            <img
+                    class="weapon-image"
+                    src="images/weapons/Desert-Eagle-Thumbnail.png"
+            />
+          </ul>
+        </div>
+        <div class="content styled" v-if="wikiTabs == 'Badges'">
+          <div class="BadgeContainer">
+                <span class="badge-icon">
+                  <img
+                          src="images/Developer-Icon.png"
+                          alt="profile-badge"
+                          class="profile-badge"
+                  />
+                  <p style="color: white">Developer</p>
+                </span>
+            <p>
+              Given to Developers of Venge.
+            </p>
+          </div>
+          <div class="BadgeContainer">
+                <span class="badge-icon">
+                  <img
+                          src="images/MapMaker-Icon.png"
+                          alt="profile-badge"
+                          class="profile-badge"
+                  />
+                  <p style="color: white">Map-Maker</p>
+                </span>
+            <p>
+              Given to Map designers of Venge that make it in the game.
+            </p>
+          </div>
+          <div class="BadgeContainer">
+                <span class="badge-icon">
+                  <img
+                          src="images/Staff-Icon.png"
+                          alt="profile-badge"
+                          class="profile-badge"
+                  />
+                  <p style="color: white">Staff</p>
+                </span>
+            <p>
+              Given to the Discord Staff of Venge.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="footer-banner">
+        <div id="banner-728x90" class="banner-728x90">
+          <div id="venge-io_728x90"></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">Venge.io 2021 - All Rights Reserved</div>
+  </div>
+</div>
+
+<script type="text/javascript"></script>
+
+<script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=UA-56170709-46"
+></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+
+  gtag("config", "UA-56170709-46");
+</script>
+<script type="text/javascript" src="js/app.js?v=1.86"></script>
+
+<script>
+  if (typeof PokiSDK != "undefined") {
+    var initSDK = function () {
+      PokiSDK.init()
+              .then(() => {
+                console.log("Poki SDK successfully initialized");
+
+                var horizontalBanner = document.getElementById("banner-728x90");
+                PokiSDK.displayAd(horizontalBanner, "728x90");
+
+                var squareBanner = document.getElementById("banner-300x250");
+                PokiSDK.displayAd(squareBanner, "300x250");
+              })
+              .catch(() => {
+                console.log("Initialized, but the user likely has adblock");
+              });
+    };
+
+    setTimeout(function () {
+      initSDK();
+    }, 100);
+  }
+</script>
+</body>
+</html>
